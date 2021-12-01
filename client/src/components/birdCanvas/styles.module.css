@@ -1,0 +1,20 @@
+:root {
+    --logoHeight: 205px;
+    --logoWidth: 534px;
+  }
+
+.logo {
+    position: absolute;
+    top: calc(50% - (var(--logoHeight) / 2));
+    left: calc(50% - (var(--logoWidth) / 2));
+}
+
+.title {
+    font-size: 128px;
+}
+
+.links {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 24px;
+}
