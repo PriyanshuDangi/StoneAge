@@ -1,17 +1,19 @@
 import React from "react";
-import {Counter} from "./features/counter/Counter";
-
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import BirdCanvas from "./components/birdCanvas/BirdCanvas";
+
+import Home from "./containers/home/Home";
+import MarketPlace from "./containers/marketplace/MarketPlace";
+import World from "./containers/world/World";
+import Builder from "./containers/builder/Builder";
 
 function App() {
     return (
         <Router>
             <Routes>
-                <Route exact element={<Counter />} path={"/builder"} />
-                <Route exact element={<Counter />} path={"/world"} />
-                <Route exact element={<Counter />} path={"/marketplace"} />
-                <Route exact element={<BirdCanvas />} path={"/"} />
+                <Route exact element={<Builder />} path={"/builder"} />
+                <Route exact element={<World />} path={"/world"} />
+                <Route exact element={<MarketPlace />} path={"/marketplace"} />
+                <Route exact element={<Home />} path={"/"} />
             </Routes>
         </Router>
     );
