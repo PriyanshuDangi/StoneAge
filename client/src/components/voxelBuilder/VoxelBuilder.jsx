@@ -3,6 +3,8 @@ import * as THREE from "three";
 import { useThree, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { VertexNormalsHelper } from "three/examples/jsm/helpers/VertexNormalsHelper";
+import Stats from "three/examples/jsm/libs/stats.module.js";
+import {colors} from "./Color.js";
 
 const boxSize = 2;
 const piece = 32;
@@ -14,6 +16,7 @@ const VoxelBuilder = () => {
     const { scene, camera, gl } = useThree();
     // const [gridHelpers, setGridHelpers] = useState([]);
     // window.camera = camera;
+    let [stats] = useState(new Stats());
 
     useEffect(() => {
         let gridHelper1 = new THREE.GridHelper(
@@ -274,9 +277,28 @@ const VoxelBuilder = () => {
         // controls.enableDamping = true;
         // controls.enableZoom = false;
         controls.minDistance = 7;
-        // controls.maxDistance = 70;
+        controls.maxDistance = 300;
         controls.minPolarAngle = 0;
         controls.maxPolarAngle = Math.PI / 2;
+
+        const axesHelper = new THREE.AxesHelper(Math.round(piece * 1.2));
+        scene.add(axesHelper);
+
+        if (process.env.NODE_ENV === "development") {
+            document.body.appendChild(stats.dom);
+        }
+
+        const mesh = new THREE.InstancedMesh(
+            cubeGeo,
+            cubeMaterial,
+            piece * piece * height
+        );
+        const matrix = new THREE.Matrix4();
+        console.log(mesh);
+        scene.add(mesh);
+        objects.push(mesh);
+        let removed = [];
+        let boxColor = "rgb(255, 255, 0)";
 
         function onPointerMove(event) {
             if (isAltDown) {
@@ -339,8 +361,9 @@ const VoxelBuilder = () => {
             }
         };
         updateGrids();
-
+        let p = 0;
         function onPointerDown(event) {
+            // console.log(mesh);
             if (isAltDown) return;
             isPointerDown = true;
             pointer.set(
@@ -351,30 +374,44 @@ const VoxelBuilder = () => {
             const intersects = raycaster.intersectObjects(objects);
             if (intersects.length > 0) {
                 const intersect = intersects[0];
+                console.log(intersect);
                 // delete cube
                 if (isShiftDown) {
-                    if (intersect.object !== plane) {
-                        scene.remove(intersect.object);
-                        objects.splice(objects.indexOf(intersect.object), 1);
+                    if (intersect.object !== plane && Number.isInteger(intersect.instanceId)) {
+                        removed.push(intersect.instanceId);
+                        matrix.setPosition(0, -100, 0);
+                        mesh.setMatrixAt(intersect.instanceId, matrix);
+                        mesh.instanceMatrix.needsUpdate = true;
                     }
-                    // create cube
+                    // add cube
                 } else {
-                    const voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
-                    voxel.position
-                        .copy(intersect.point)
-                        .add(intersect.face.normal);
-                    voxel.position
+                    const position = new THREE.Vector3();
+                    position.copy(intersect.point).add(intersect.face.normal);
+                    position
                         .divideScalar(boxSize)
                         .floor()
                         .multiplyScalar(boxSize)
                         .addScalar(boxSize / 2);
+                    matrix.setPosition(position.x, position.y, position.z);
+                    console.log(position);
                     if (
-                        Math.abs(voxel.position.x) < (boxSize * piece) / 2 &&
-                        Math.abs(voxel.position.y) < boxSize * height &&
-                        Math.abs(voxel.position.z) < (boxSize * piece) / 2
+                        Math.abs(position.x) < (boxSize * piece) / 2 &&
+                        Math.abs(position.y) < boxSize * height &&
+                        Math.abs(position.z) < (boxSize * piece) / 2
                     ) {
-                        scene.add(voxel);
-                        objects.push(voxel);
+                        let id = p;
+                        console.log(removed);
+                        if (removed.length > 0) {
+                            console.log("hey");
+                            id = removed.pop();
+                        } else {
+                            console.log("ho")
+                            p++;
+                        }
+                        mesh.setMatrixAt(id, matrix);
+                        mesh.setColorAt(id, new THREE.Color(boxColor));
+                        mesh.instanceMatrix.needsUpdate = true;
+                        mesh.instanceColor.needsUpdate = true;
                     }
                 }
             }
@@ -395,6 +432,36 @@ const VoxelBuilder = () => {
                     isAltDown = true;
                     controls.enableRotate = true;
                     break;
+                case "Digit1":
+                    boxColor = colors[1];
+                    break;
+                case "Digit2":
+                    boxColor = colors[2];
+                    break;
+                case "Digit3":
+                    boxColor = colors[3];
+                    break;
+                case "Digit4":
+                    boxColor = colors[4];
+                    break;
+                case "Digit5":
+                    boxColor = colors[5];
+                    break;
+                case "Digit6":
+                    boxColor = colors[6];
+                    break;
+                case "Digit7":
+                    boxColor = colors[7];
+                    break;
+                case "Digit8":
+                    boxColor = colors[8];
+                    break;
+                case "Digit9":
+                    boxColor = colors[9];
+                    break;
+                case "Digit0":
+                    boxColor = colors[0];
+                    break;
             }
         }
 
@@ -412,6 +479,12 @@ const VoxelBuilder = () => {
             }
         }
     }, []);
+
+    useFrame(() => {
+        if (process.env.NODE_ENV === "development") {
+            stats.update();
+        }
+    });
 
     return null;
 };

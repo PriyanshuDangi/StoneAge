@@ -8,7 +8,7 @@ import WaterNormals from "../../assets/world/waternormals.jpg";
 
 const Ocean = () => {
     const { scene, gl, camera } = useThree();
-    const [water, ] = useState(
+    const [water] = useState(
         new Water(new THREE.PlaneGeometry(10000, 10000), {
             textureWidth: 512,
             textureHeight: 512,
@@ -28,7 +28,7 @@ const Ocean = () => {
 
     useEffect(() => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;
-        camera.position.set( 30, 30, 100 );
+        // camera.position.set( 30, 30, 100 );
 
         let sun = new THREE.Vector3();
 
@@ -61,7 +61,7 @@ const Ocean = () => {
             sun.setFromSphericalCoords(1, phi, theta);
 
             sky.material.uniforms["sunPosition"].value.copy(sun);
-            water.material.uniforms["sunDirection"].value.copy(sun).normalize();
+            // water.material.uniforms["sunDirection"].value.copy(sun).normalize();
 
             scene.environment = pmremGenerator.fromScene(sky).texture;
         }
