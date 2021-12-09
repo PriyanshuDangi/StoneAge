@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import * as THREE from "three";
-import { useFrame, useThree } from "@react-three/fiber";
-import { Water } from "three/examples/jsm/objects/Water";
-import { Sky } from "three/examples/jsm/objects/Sky";
+import { useEffect, useState } from 'react';
+import * as THREE from 'three';
+import { useFrame, useThree } from '@react-three/fiber';
+import { Water } from 'three/examples/jsm/objects/Water';
+import { Sky } from 'three/examples/jsm/objects/Sky';
 // import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
-import WaterNormals from "../../assets/world/waternormals.jpg";
+import WaterNormals from '../../assets/world/waternormals.jpg';
 
 const Ocean = () => {
     const { scene, gl, camera } = useThree();
@@ -12,18 +12,15 @@ const Ocean = () => {
         new Water(new THREE.PlaneGeometry(10000, 10000), {
             textureWidth: 512,
             textureHeight: 512,
-            waterNormals: new THREE.TextureLoader().load(
-                WaterNormals,
-                function (texture) {
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                }
-            ),
+            waterNormals: new THREE.TextureLoader().load(WaterNormals, function (texture) {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            }),
             sunDirection: new THREE.Vector3(),
             sunColor: 0xffffff,
             waterColor: 0x001e0f,
             distortionScale: 3.7,
             fog: scene.fog !== undefined,
-        })
+        }),
     );
 
     useEffect(() => {
@@ -42,10 +39,10 @@ const Ocean = () => {
 
         const skyUniforms = sky.material.uniforms;
 
-        skyUniforms["turbidity"].value = 10;
-        skyUniforms["rayleigh"].value = 2;
-        skyUniforms["mieCoefficient"].value = 0.005;
-        skyUniforms["mieDirectionalG"].value = 0.8;
+        skyUniforms['turbidity'].value = 10;
+        skyUniforms['rayleigh'].value = 2;
+        skyUniforms['mieCoefficient'].value = 0.005;
+        skyUniforms['mieDirectionalG'].value = 0.8;
 
         const parameters = {
             elevation: 0.1,
@@ -60,7 +57,7 @@ const Ocean = () => {
 
             sun.setFromSphericalCoords(1, phi, theta);
 
-            sky.material.uniforms["sunPosition"].value.copy(sun);
+            sky.material.uniforms['sunPosition'].value.copy(sun);
             // water.material.uniforms["sunDirection"].value.copy(sun).normalize();
 
             scene.environment = pmremGenerator.fromScene(sky).texture;
@@ -88,7 +85,7 @@ const Ocean = () => {
     }, []);
 
     useFrame(() => {
-        water.material.uniforms["time"].value += 1.0 / 60.0;
+        water.material.uniforms['time'].value += 1.0 / 60.0;
     });
 
     return null;

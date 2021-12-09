@@ -1,3 +1,1 @@
-const voxelExporter = (objects) => {
-    
-}
+const voxelExporter = (objects) => {};

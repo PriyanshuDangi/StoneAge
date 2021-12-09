@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import * as THREE from "three";
+import React, { useEffect } from 'react';
+import * as THREE from 'three';
 // import Stats from "three/examples/jsm/libs/stats.module.js";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 // import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
-import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer.js";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import Parrot from "../../assets/models/Parrot.glb";
-import Flamingo from "../../assets/models/Flamingo.glb";
-import styleClass from "./styles.module.css";
-import StoneAgeImg from "../../assets/images/stoneage.png";
-import { NavLink } from "react-router-dom";
+import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import Parrot from '../../assets/models/Parrot.glb';
+import Flamingo from '../../assets/models/Flamingo.glb';
+import styleClass from './styles.module.css';
+import StoneAgeImg from '../../assets/images/stoneage.png';
+import { NavLink } from 'react-router-dom';
 
 const BirdCanvas = () => {
     useEffect(() => {
@@ -19,11 +19,7 @@ const BirdCanvas = () => {
 
         /* BAKE ANIMATION INTO TEXTURE and CREATE GEOMETRY FROM BASE MODEL */
         const BirdGeometry = new THREE.BufferGeometry();
-        let textureAnimation,
-            durationAnimation,
-            birdMesh,
-            materialShader,
-            vertexPerBird;
+        let textureAnimation, durationAnimation, birdMesh, materialShader, vertexPerBird;
 
         function nextPowerOf2(n) {
             return Math.pow(2, Math.ceil(Math.log(n) / Math.log(2)));
@@ -44,25 +40,18 @@ const BirdCanvas = () => {
             const birdGeo = gltf.scene.children[0].geometry;
             const morphAttributes = birdGeo.morphAttributes.position;
             const tHeight = nextPowerOf2(durationAnimation);
-            const tWidth = nextPowerOf2(birdGeo.getAttribute("position").count);
-            vertexPerBird = birdGeo.getAttribute("position").count;
+            const tWidth = nextPowerOf2(birdGeo.getAttribute('position').count);
+            vertexPerBird = birdGeo.getAttribute('position').count;
             const tData = new Float32Array(3 * tWidth * tHeight);
 
             for (let i = 0; i < tWidth; i++) {
                 for (let j = 0; j < tHeight; j++) {
                     const offset = j * tWidth * 3;
 
-                    const curMorph = Math.floor(
-                        (j / durationAnimation) * morphAttributes.length
-                    );
+                    const curMorph = Math.floor((j / durationAnimation) * morphAttributes.length);
                     const nextMorph =
-                        (Math.floor(
-                            (j / durationAnimation) * morphAttributes.length
-                        ) +
-                            1) %
-                        morphAttributes.length;
-                    const lerpAmount =
-                        ((j / durationAnimation) * morphAttributes.length) % 1;
+                        (Math.floor((j / durationAnimation) * morphAttributes.length) + 1) % morphAttributes.length;
+                    const lerpAmount = ((j / durationAnimation) * morphAttributes.length) % 1;
 
                     if (j < durationAnimation) {
                         let d0, d1;
@@ -70,43 +59,24 @@ const BirdCanvas = () => {
                         d0 = morphAttributes[curMorph].array[i * 3];
                         d1 = morphAttributes[nextMorph].array[i * 3];
 
-                        if (d0 !== undefined && d1 !== undefined)
-                            tData[offset + i * 3] = Math.lerp(
-                                d0,
-                                d1,
-                                lerpAmount
-                            );
+                        if (d0 !== undefined && d1 !== undefined) tData[offset + i * 3] = Math.lerp(d0, d1, lerpAmount);
 
                         d0 = morphAttributes[curMorph].array[i * 3 + 1];
                         d1 = morphAttributes[nextMorph].array[i * 3 + 1];
 
                         if (d0 !== undefined && d1 !== undefined)
-                            tData[offset + i * 3 + 1] = Math.lerp(
-                                d0,
-                                d1,
-                                lerpAmount
-                            );
+                            tData[offset + i * 3 + 1] = Math.lerp(d0, d1, lerpAmount);
 
                         d0 = morphAttributes[curMorph].array[i * 3 + 2];
                         d1 = morphAttributes[nextMorph].array[i * 3 + 2];
 
                         if (d0 !== undefined && d1 !== undefined)
-                            tData[offset + i * 3 + 2] = Math.lerp(
-                                d0,
-                                d1,
-                                lerpAmount
-                            );
+                            tData[offset + i * 3 + 2] = Math.lerp(d0, d1, lerpAmount);
                     }
                 }
             }
 
-            textureAnimation = new THREE.DataTexture(
-                tData,
-                tWidth,
-                tHeight,
-                THREE.RGBFormat,
-                THREE.FloatType
-            );
+            textureAnimation = new THREE.DataTexture(tData, tWidth, tHeight, THREE.RGBFormat, THREE.FloatType);
             textureAnimation.needsUpdate = true;
 
             const vertices = [],
@@ -114,66 +84,35 @@ const BirdCanvas = () => {
                 reference = [],
                 seeds = [],
                 indices = [];
-            const totalVertices =
-                birdGeo.getAttribute("position").count * 3 * BIRDS;
+            const totalVertices = birdGeo.getAttribute('position').count * 3 * BIRDS;
             for (let i = 0; i < totalVertices; i++) {
-                const bIndex = i % (birdGeo.getAttribute("position").count * 3);
-                vertices.push(birdGeo.getAttribute("position").array[bIndex]);
-                color.push(birdGeo.getAttribute("color").array[bIndex]);
+                const bIndex = i % (birdGeo.getAttribute('position').count * 3);
+                vertices.push(birdGeo.getAttribute('position').array[bIndex]);
+                color.push(birdGeo.getAttribute('color').array[bIndex]);
             }
 
             let r = Math.random();
-            for (
-                let i = 0;
-                i < birdGeo.getAttribute("position").count * BIRDS;
-                i++
-            ) {
-                const bIndex = i % birdGeo.getAttribute("position").count;
-                const bird = Math.floor(
-                    i / birdGeo.getAttribute("position").count
-                );
+            for (let i = 0; i < birdGeo.getAttribute('position').count * BIRDS; i++) {
+                const bIndex = i % birdGeo.getAttribute('position').count;
+                const bird = Math.floor(i / birdGeo.getAttribute('position').count);
                 if (bIndex === 0) r = Math.random();
                 const j = ~~bird;
                 const x = (j % WIDTH) / WIDTH;
                 const y = ~~(j / WIDTH) / WIDTH;
-                reference.push(
-                    x,
-                    y,
-                    bIndex / tWidth,
-                    durationAnimation / tHeight
-                );
+                reference.push(x, y, bIndex / tWidth, durationAnimation / tHeight);
                 seeds.push(bird, r, Math.random(), Math.random());
             }
 
             for (let i = 0; i < birdGeo.index.array.length * BIRDS; i++) {
-                const offset =
-                    Math.floor(i / birdGeo.index.array.length) *
-                    birdGeo.getAttribute("position").count;
-                indices.push(
-                    birdGeo.index.array[i % birdGeo.index.array.length] + offset
-                );
+                const offset = Math.floor(i / birdGeo.index.array.length) * birdGeo.getAttribute('position').count;
+                indices.push(birdGeo.index.array[i % birdGeo.index.array.length] + offset);
             }
 
-            BirdGeometry.setAttribute(
-                "position",
-                new THREE.BufferAttribute(new Float32Array(vertices), 3)
-            );
-            BirdGeometry.setAttribute(
-                "birdColor",
-                new THREE.BufferAttribute(new Float32Array(color), 3)
-            );
-            BirdGeometry.setAttribute(
-                "color",
-                new THREE.BufferAttribute(new Float32Array(color), 3)
-            );
-            BirdGeometry.setAttribute(
-                "reference",
-                new THREE.BufferAttribute(new Float32Array(reference), 4)
-            );
-            BirdGeometry.setAttribute(
-                "seeds",
-                new THREE.BufferAttribute(new Float32Array(seeds), 4)
-            );
+            BirdGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
+            BirdGeometry.setAttribute('birdColor', new THREE.BufferAttribute(new Float32Array(color), 3));
+            BirdGeometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(color), 3));
+            BirdGeometry.setAttribute('reference', new THREE.BufferAttribute(new Float32Array(reference), 4));
+            BirdGeometry.setAttribute('seeds', new THREE.BufferAttribute(new Float32Array(seeds), 4));
 
             BirdGeometry.setIndex(indices);
 
@@ -202,15 +141,10 @@ const BirdCanvas = () => {
         let velocityUniforms;
 
         function init() {
-            container = document.createElement("div");
+            container = document.createElement('div');
             document.body.appendChild(container);
 
-            camera = new THREE.PerspectiveCamera(
-                75,
-                window.innerWidth / window.innerHeight,
-                1,
-                3000
-            );
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 3000);
             camera.position.z = 350;
 
             scene = new THREE.Scene();
@@ -219,11 +153,7 @@ const BirdCanvas = () => {
 
             // LIGHTS
 
-            const hemiLight = new THREE.HemisphereLight(
-                colors[selectModel],
-                0xffffff,
-                1.6
-            );
+            const hemiLight = new THREE.HemisphereLight(colors[selectModel], 0xffffff, 1.6);
             hemiLight.color.setHSL(0.6, 1, 0.6);
             hemiLight.groundColor.setHSL(0.095, 1, 0.75);
             hemiLight.position.set(0, 50, 0);
@@ -241,6 +171,8 @@ const BirdCanvas = () => {
             container.appendChild(renderer.domElement);
 
             controls = new OrbitControls(camera, renderer.domElement);
+            controls.enablePan = false;
+            controls.mouseButtons.RIGHT = THREE.MOUSE.ROTATE;
             controls.update();
 
             initComputeRenderer();
@@ -248,10 +180,10 @@ const BirdCanvas = () => {
             // stats = new Stats();
             // container.appendChild(stats.dom);
 
-            container.style.touchAction = "none";
-            container.addEventListener("pointermove", onPointerMove);
+            container.style.touchAction = 'none';
+            container.addEventListener('pointermove', onPointerMove);
 
-            window.addEventListener("resize", onWindowResize);
+            window.addEventListener('resize', onWindowResize);
 
             // const gui = new GUI();
 
@@ -265,21 +197,12 @@ const BirdCanvas = () => {
             };
 
             const valuesChanger = function () {
-                velocityUniforms["separationDistance"].value =
-                    effectController.separation;
-                velocityUniforms["alignmentDistance"].value =
-                    effectController.alignment;
-                velocityUniforms["cohesionDistance"].value =
-                    effectController.cohesion;
-                velocityUniforms["freedomFactor"].value =
-                    effectController.freedom;
-                if (materialShader)
-                    materialShader.uniforms["size"].value =
-                        effectController.size;
-                BirdGeometry.setDrawRange(
-                    0,
-                    vertexPerBird * effectController.count
-                );
+                velocityUniforms['separationDistance'].value = effectController.separation;
+                velocityUniforms['alignmentDistance'].value = effectController.alignment;
+                velocityUniforms['cohesionDistance'].value = effectController.cohesion;
+                velocityUniforms['freedomFactor'].value = effectController.freedom;
+                if (materialShader) materialShader.uniforms['size'].value = effectController.size;
+                BirdGeometry.setDrawRange(0, vertexPerBird * effectController.count);
             };
 
             valuesChanger();
@@ -317,38 +240,32 @@ const BirdCanvas = () => {
             fillVelocityTexture(dtVelocity);
 
             velocityVariable = gpuCompute.addVariable(
-                "textureVelocity",
-                document.getElementById("fragmentShaderVelocity").textContent,
-                dtVelocity
+                'textureVelocity',
+                document.getElementById('fragmentShaderVelocity').textContent,
+                dtVelocity,
             );
             positionVariable = gpuCompute.addVariable(
-                "texturePosition",
-                document.getElementById("fragmentShaderPosition").textContent,
-                dtPosition
+                'texturePosition',
+                document.getElementById('fragmentShaderPosition').textContent,
+                dtPosition,
             );
 
-            gpuCompute.setVariableDependencies(velocityVariable, [
-                positionVariable,
-                velocityVariable,
-            ]);
-            gpuCompute.setVariableDependencies(positionVariable, [
-                positionVariable,
-                velocityVariable,
-            ]);
+            gpuCompute.setVariableDependencies(velocityVariable, [positionVariable, velocityVariable]);
+            gpuCompute.setVariableDependencies(positionVariable, [positionVariable, velocityVariable]);
 
             positionUniforms = positionVariable.material.uniforms;
             velocityUniforms = velocityVariable.material.uniforms;
 
-            positionUniforms["time"] = { value: 0.0 };
-            positionUniforms["delta"] = { value: 0.0 };
-            velocityUniforms["time"] = { value: 1.0 };
-            velocityUniforms["delta"] = { value: 0.0 };
-            velocityUniforms["testing"] = { value: 1.0 };
-            velocityUniforms["separationDistance"] = { value: 1.0 };
-            velocityUniforms["alignmentDistance"] = { value: 1.0 };
-            velocityUniforms["cohesionDistance"] = { value: 1.0 };
-            velocityUniforms["freedomFactor"] = { value: 1.0 };
-            velocityUniforms["predator"] = { value: new THREE.Vector3() };
+            positionUniforms['time'] = { value: 0.0 };
+            positionUniforms['delta'] = { value: 0.0 };
+            velocityUniforms['time'] = { value: 1.0 };
+            velocityUniforms['delta'] = { value: 0.0 };
+            velocityUniforms['testing'] = { value: 1.0 };
+            velocityUniforms['separationDistance'] = { value: 1.0 };
+            velocityUniforms['alignmentDistance'] = { value: 1.0 };
+            velocityUniforms['cohesionDistance'] = { value: 1.0 };
+            velocityUniforms['freedomFactor'] = { value: 1.0 };
+            velocityUniforms['predator'] = { value: new THREE.Vector3() };
             velocityVariable.material.defines.BOUNDS = BOUNDS.toFixed(2);
 
             velocityVariable.wrapS = THREE.RepeatWrapping;
@@ -364,10 +281,7 @@ const BirdCanvas = () => {
         }
 
         function isSafari() {
-            return (
-                !!navigator.userAgent.match(/Safari/i) &&
-                !navigator.userAgent.match(/Chrome/i)
-            );
+            return !!navigator.userAgent.match(/Safari/i) && !navigator.userAgent.match(/Chrome/i);
         }
 
         function initBirds(effectController) {
@@ -388,7 +302,7 @@ const BirdCanvas = () => {
                 shader.uniforms.size = { value: effectController.size };
                 shader.uniforms.delta = { value: 0.0 };
 
-                let token = "#define STANDARD";
+                let token = '#define STANDARD';
 
                 let insert = /* glsl */ `
 						attribute vec4 reference;
@@ -401,12 +315,9 @@ const BirdCanvas = () => {
 						uniform float time;
 					`;
 
-                shader.vertexShader = shader.vertexShader.replace(
-                    token,
-                    token + insert
-                );
+                shader.vertexShader = shader.vertexShader.replace(token, token + insert);
 
-                token = "#include <begin_vertex>";
+                token = '#include <begin_vertex>';
 
                 insert = /* glsl */ `
 						vec4 tmpPos = texture2D( texturePosition, reference.xy );
@@ -431,10 +342,7 @@ const BirdCanvas = () => {
 						vec3 transformed = vec3( newPosition );
 					`;
 
-                shader.vertexShader = shader.vertexShader.replace(
-                    token,
-                    insert
-                );
+                shader.vertexShader = shader.vertexShader.replace(token, insert);
 
                 materialShader = shader;
             };
@@ -511,19 +419,14 @@ const BirdCanvas = () => {
             if (delta > 1) delta = 1; // safety cap on large deltas
             last = now;
 
-            positionUniforms["time"].value = now;
-            positionUniforms["delta"].value = delta;
-            velocityUniforms["time"].value = now;
-            velocityUniforms["delta"].value = delta;
-            if (materialShader)
-                materialShader.uniforms["time"].value = now / 1000;
-            if (materialShader) materialShader.uniforms["delta"].value = delta;
+            positionUniforms['time'].value = now;
+            positionUniforms['delta'].value = delta;
+            velocityUniforms['time'].value = now;
+            velocityUniforms['delta'].value = delta;
+            if (materialShader) materialShader.uniforms['time'].value = now / 1000;
+            if (materialShader) materialShader.uniforms['delta'].value = delta;
 
-            velocityUniforms["predator"].value.set(
-                (0.5 * mouseX) / windowHalfX,
-                (-0.5 * mouseY) / windowHalfY,
-                0
-            );
+            velocityUniforms['predator'].value.set((0.5 * mouseX) / windowHalfX, (-0.5 * mouseY) / windowHalfY, 0);
 
             mouseX = 10000;
             mouseY = 10000;
@@ -531,10 +434,10 @@ const BirdCanvas = () => {
             gpuCompute.compute();
 
             if (materialShader)
-                materialShader.uniforms["texturePosition"].value =
+                materialShader.uniforms['texturePosition'].value =
                     gpuCompute.getCurrentRenderTarget(positionVariable).texture;
             if (materialShader)
-                materialShader.uniforms["textureVelocity"].value =
+                materialShader.uniforms['textureVelocity'].value =
                     gpuCompute.getCurrentRenderTarget(velocityVariable).texture;
 
             renderer.render(scene, camera);
@@ -551,9 +454,15 @@ const BirdCanvas = () => {
                     <img src={StoneAgeImg} alt="logo" />
                 </div>
                 <div className={styleClass.links}>
-                    <NavLink to="/builder">Builder</NavLink>
-                    <NavLink to="/world">World</NavLink>
-                    <NavLink to="/marketplace">MarketPlace</NavLink>
+                    <NavLink className="link-dark" to="/builder">
+                        Builder
+                    </NavLink>
+                    <NavLink className="link-dark" to="/world">
+                        World
+                    </NavLink>
+                    <NavLink className="link-dark" to="/marketplace">
+                        MarketPlace
+                    </NavLink>
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 :root {
     --logoHeight: 205px;
     --logoWidth: 534px;
-  }
+}
 
 .logo {
     position: absolute;
