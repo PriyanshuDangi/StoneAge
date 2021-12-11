@@ -2,17 +2,23 @@ import * as config from '../../config/wallet';
 import { fetchBigMap } from './tzkt';
 
 export const fetchCubesNFT = async () => {
-    const response = await fetchBigMap(config.NFT_REGISTRY_ADDRESS, 'token_metadata');
-    const tokens = response.data.map((token) => {
-        return {
-            cube_url: token.value.cube_url,
-            map_url: token.value.map_url,
-            on_sale: token.value.on_sale,
-            price: token.valur.price,
-            token_id: token.value.token_id,
-        };
-    });
-    return tokens;
+    try {
+        console.log('Fetching cubes NFT');
+        const response = await fetchBigMap(config.NFT_REGISTRY_ADDRESS, 'token_metadata');
+        const tokens = response.data.map((token) => {
+            return {
+                cube_url: token.value.cube_url,
+                map_url: token.value.map_url,
+                on_sale: token.value.on_sale,
+                price: token.value.price,
+                token_id: token.value.token_id,
+            };
+        });
+        console.log(tokens);
+        return tokens;
+    } catch (err) {
+        console.log(err);
+    }
 };
 
 export const fetchLedger = async () => {

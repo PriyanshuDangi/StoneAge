@@ -6,11 +6,12 @@ import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { boxSize, piece, height } from '../../config/world.js';
 import { checkCube } from '../../utils/builder/checkCube.js';
 import landImg from '../../assets/images/bedrock.png';
+import { colors } from './Color.js';
 
 const objects = [];
 let gridHelpers = [];
 let verticalPlanes = [];
-let boxColor = 'colors[9]';
+let boxColor = colors[9];
 
 const VoxelBuilder = (props) => {
     const { scene, camera, gl } = useThree();
@@ -295,7 +296,7 @@ const VoxelBuilder = (props) => {
                                 y: position.y,
                                 z: position.z,
                             },
-                            color: props.boxColor,
+                            color: boxColor,
                         };
                         if (removed.length > 0) {
                             id = removed.pop();
@@ -304,6 +305,7 @@ const VoxelBuilder = (props) => {
                             cubes.push(cube);
                             p++;
                         }
+                        console.log(cubes);
                         mesh.setMatrixAt(id, matrix);
                         mesh.setColorAt(id, new THREE.Color(boxColor).convertSRGBToLinear());
                         mesh.instanceMatrix.needsUpdate = true;

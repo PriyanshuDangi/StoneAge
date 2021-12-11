@@ -12,7 +12,7 @@ import { Button } from 'react-bootstrap';
 import tezosLogo from '../../assets/images/tezos-logo.svg';
 
 const short = (pkh) => {
-    return pkh.substring(0, 6) + '...' + pkh.substring(pkh.length - 4);
+    if (pkh) return pkh.substring(0, 6) + '...' + pkh.substring(pkh.length - 4);
 };
 
 const WalletButton = () => {
@@ -32,7 +32,7 @@ const WalletButton = () => {
     return (
         <Button variant="outline-dark" onClick={clicked}>
             <img src={tezosLogo} alt="tezos logo" style={{ width: '20px', height: '20px' }} />
-            {walletConnected ? short(pkh) : 'Connect Wallet'}
+            {walletConnected && pkh ? short(pkh) : 'Connect Wallet'}
         </Button>
     );
 };

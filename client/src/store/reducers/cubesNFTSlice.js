@@ -13,14 +13,14 @@ const initialState = {
     error: null,
 };
 
-export const setCubesNFTAsync = createAsyncThunk('wallet/connect', async () => {
+export const setCubesNFTAsync = createAsyncThunk('cubesNFT/fetch', async () => {
     const cubesNFT = await fetchCubesNFT();
     return cubesNFT;
 });
 
 export const cubesNFTSlice = createSlice({
     name: 'cubesNFT',
-    initialState: initialState,
+    initialState,
     reducers: {
         setCubesNFT: (state, action) => {
             state.state = cubesNFTStateType.idle;
@@ -49,7 +49,8 @@ export const cubesNFTSlice = createSlice({
 
 export const { setCubesNFT } = cubesNFTSlice.actions;
 
-export const selectCubesNFTLoaded = (state) => state.cubesNFT.loaded;
 export const selectCubesNFT = (state) => state.cubesNFT.cubesNFT;
+export const selectCubesNFTState = (state) => state.cubesNFT.state;
+export const selectCubesNFTError = (state) => state.cubesNFT.error;
 
 export default cubesNFTSlice.reducer;

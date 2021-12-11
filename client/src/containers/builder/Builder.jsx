@@ -28,8 +28,7 @@ const exportCubes = (cubes) => {
             cubesToExport.push(cube);
         }
     });
-
-    console.log(cubesToExport);
+    return cubesToExport;
 };
 
 const Builder = () => {
@@ -72,7 +71,7 @@ const Builder = () => {
         const allCubes = exportCubes(cubes);
         const url = await uploadCube(allCubes, cubeId);
         await updateCubeUrl(cubeId, url);
-    }
+    };
 
     return (
         <div>

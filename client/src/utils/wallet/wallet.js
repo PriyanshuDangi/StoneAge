@@ -52,11 +52,11 @@ const getContractStorage = async () => {
     return storage;
 };
 
-const updateCubeUrl = async (cubeId, url) => { 
+const updateCubeUrl = async (cubeId, url) => {
     const registry = await getRegistry();
     const op = await registry.methods.update_cube(url, cubeId).send();
     await op.confirmation(1);
-}
+};
 
 export {
     wallet,
@@ -67,5 +67,5 @@ export {
     getActiveAccount,
     getContract,
     getContractStorage,
-    updateCubeUrl
+    updateCubeUrl,
 };

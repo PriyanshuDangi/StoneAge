@@ -38,8 +38,8 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route exact element={<Builder />} path={'/builder'} />
                 <Route exact element={<World />} path={'/world'} />
+                <Route exact element={<Builder />} path={'/builder'} />
                 <Route exact element={<MarketPlace />} path={'/marketplace'} />
                 <Route exact element={<Home />} path={'/'} />
             </Routes>
