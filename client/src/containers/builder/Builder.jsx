@@ -7,7 +7,7 @@ import styleClasses from './styles.module.css';
 import { colors } from '../../components/voxelBuilder/Color';
 
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded';
@@ -18,6 +18,11 @@ import ChooseCubeModal from '../../components/ChooseCubeModal/ChooseCubeModal';
 import { connectWalletAsync, selectConnected } from '../../store/reducers/walletSlice';
 import { uploadCube } from '../../utils/upload/upload';
 import { updateCubeUrl } from '../../utils/wallet/wallet';
+import NavBar from '../../components/navBar/NavBar';
+import StoneAgeImg from '../../assets/images/stoneage.png';
+import { NavLink } from 'react-router-dom';
+import { Container, Nav, Navbar, Button } from 'react-bootstrap';
+import WalletButton from '../../components/walletButton/WalletButton';
 
 let cubes = [];
 
@@ -76,40 +81,46 @@ const Builder = () => {
     return (
         <div>
             <ChooseCubeModal show={showChooseCube} set={setShowChooseCube} publishCube={publishCube} />
-            <nav className={styleClasses.navbar}>
-                <div className={styleClasses.nav}>
-                    <div>StoneAge</div>
-                    <div className={styleClasses.colors}>
-                        {colors.map((color, index) => {
-                            let classes = [styleClasses.colorBox];
-                            if (color == boxColor) {
-                                classes.push(styleClasses.active);
-                            }
-                            return (
-                                <div
-                                    key={index}
-                                    className={classes.join(' ')}
-                                    style={{ background: color, color: color }}
-                                    onClickCapture={(event) => setColor(event, color)}
-                                >
-                                    <div>{index}</div>
-                                </div>
-                            );
-                        })}
+            <Navbar bg="dark" variant="dark" expand="md" fixed="top">
+                <Container fluid>
+                    <Navbar.Toggle aria-controls="navbarScroll" />
+                    <NavLink className="navbar-brand" to="/">
+                        <img alt="StoneAge" src={StoneAgeImg} height="30" className="d-inline-block align-top" />
+                    </NavLink>
+                    <Navbar.Collapse id="navbarScroll">
+                        <Nav className="me-auto mx-auto">
+                            {colors.map((color, index) => {
+                                let classes = [styleClasses.colorBox];
+                                if (color == boxColor) {
+                                    classes.push(styleClasses.active);
+                                }
+                                return (
+                                    <div
+                                        key={index}
+                                        className={classes.join(' ')}
+                                        style={{ background: color, color: color }}
+                                        onClickCapture={(event) => setColor(event, color)}
+                                    >
+                                        <div>{index}</div>
+                                    </div>
+                                );
+                            })}
+                        </Nav>
+                    </Navbar.Collapse>
+                    <div className="d-flex">
+                        {/* <WalletButton dark /> */}
+                        <Button variant="outline-light" onClick={() => selectCube()}>
+                            <svg height="24" color="white" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    fill="blue"
+                                    d="M7.4 10h1.59v5c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-5h1.59c.89 0 1.34-1.08.71-1.71L12.7 3.7a.9959.9959 0 0 0-1.41 0L6.7 8.29c-.63.63-.19 1.71.7 1.71zM5 19c0 .55.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1H6c-.55 0-1 .45-1 1z"
+                                ></path>
+                            </svg>
+                            Publish
+                        </Button>
                     </div>
-                    <div>
-                        <Stack spacing={2} direction="row">
-                            <Button
-                                variant="contained"
-                                startIcon={<FileUploadRoundedIcon />}
-                                onClick={() => selectCube()}
-                            >
-                                Publish
-                            </Button>
-                        </Stack>
-                    </div>
-                </div>
-            </nav>
+                </Container>
+            </Navbar>
             <div style={{ height: '100vh' }}>
                 <Canvas gl={{ alpha: false }} sRGB camera={{ far: 10000 }}>
                     <VoxelBuilder boxColor={boxColor} cubes={cubes} />

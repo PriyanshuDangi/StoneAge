@@ -189,7 +189,7 @@ const VoxelBuilder = (props) => {
         scene.add(axesHelper);
 
         if (process.env.NODE_ENV === 'development') {
-            document.body.appendChild(stats.dom);
+            // document.body.appendChild(stats.dom);
         }
 
         const mesh = new THREE.InstancedMesh(cubeGeo, cubeMaterial, piece * piece * height);

@@ -2,21 +2,27 @@ import React from 'react';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import StoneAgeImg from '../../assets/images/stoneage.png';
 import WalletButton from '../walletButton/WalletButton';
+import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
     return (
-        <Navbar bg="dark" variant="dark" expand="sm">
+        <Navbar bg="dark" variant="dark" expand="sm" fixed="top">
             <Container fluid>
                 <Navbar.Toggle aria-controls="navbarScroll" />
-                <Navbar.Brand href="/">
-                    <img alt="" src={StoneAgeImg} height="30" className="d-inline-block align-top" />
-                </Navbar.Brand>
+                <NavLink className="navbar-brand" to="/">
+                    <img alt="StoneAge" src={StoneAgeImg} height="30" className="d-inline-block align-top" />
+                </NavLink>
                 <Navbar.Collapse id="navbarScroll">
                     <Nav className="me-auto">
-                        <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="/builder">Builder</Nav.Link>
-                        <Nav.Link href="/world">World</Nav.Link>
-                        <Nav.Link href="/marketplace">Market</Nav.Link>
+                        <NavLink className="nav-link" to="/world">
+                            World
+                        </NavLink>
+                        <NavLink className="nav-link" to="/builder">
+                            Builder
+                        </NavLink>
+                        <NavLink className="nav-link" to="/marketplace">
+                            Market
+                        </NavLink>
                     </Nav>
                 </Navbar.Collapse>
                 <div className="d-flex">

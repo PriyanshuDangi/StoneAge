@@ -1,5 +1,6 @@
 import React from 'react';
 import BirdCanvas from '../../components/birdCanvas/BirdCanvas';
+import NavBar from '../../components/navBar/NavBar';
 import WalletButton from '../../components/walletButton/WalletButton';
 
 import styleClasses from './styles.module.css';
@@ -7,9 +8,10 @@ import styleClasses from './styles.module.css';
 const Home = () => {
     return (
         <>
-            <div className={styleClasses.walletButton}>
+            {/* <div className={styleClasses.walletButton}>
                 <WalletButton />
-            </div>
+            </div> */}
+            <NavBar />
             <BirdCanvas />
         </>
     );
