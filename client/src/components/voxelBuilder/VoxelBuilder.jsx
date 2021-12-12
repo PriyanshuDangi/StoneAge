@@ -8,10 +8,13 @@ import { checkCube } from '../../utils/builder/checkCube.js';
 import landImg from '../../assets/images/bedrock.png';
 import { colors } from './Color.js';
 
+import { tiles } from '../../containers/builder/tiles.js';
+import { meshes, object } from '../../containers/builder/mesh.js';
+
 const objects = [];
 let gridHelpers = [];
 let verticalPlanes = [];
-let boxColor = colors[9];
+let boxColor = 0;
 
 const VoxelBuilder = (props) => {
     const { scene, camera, gl } = useThree();
@@ -124,17 +127,6 @@ const VoxelBuilder = (props) => {
         rollOverMesh.position.addScalar(boxSize / 2);
         scene.add(rollOverMesh);
 
-        // cubes
-
-        let cubeGeo = new THREE.BoxGeometry(boxSize, boxSize, boxSize);
-        let cubeMaterial = new THREE.MeshLambertMaterial({
-            map: new THREE.TextureLoader().load(landImg),
-            color: new THREE.Color(boxColor),
-        });
-        // let cubeMaterial = new THREE.MeshBasicMaterial({
-        //     color: new THREE.Color(0xffffff),
-        // });
-
         // grid
 
         const gridHelper = new THREE.GridHelper(boxSize * piece, piece);
@@ -189,13 +181,13 @@ const VoxelBuilder = (props) => {
         scene.add(axesHelper);
 
         if (process.env.NODE_ENV === 'development') {
-            // document.body.appendChild(stats.dom);
+            document.body.appendChild(stats.dom);
         }
 
-        const mesh = new THREE.InstancedMesh(cubeGeo, cubeMaterial, piece * piece * height);
         const matrix = new THREE.Matrix4();
-        scene.add(mesh);
-        objects.push(mesh);
+        let mesh = meshes[boxColor];
+        scene.add(object);
+        objects.push(object);
         let removed = [];
 
         function onPointerMove(event) {
@@ -256,6 +248,7 @@ const VoxelBuilder = (props) => {
         updateGrids();
         let p = 0;
         function onPointerDown(event) {
+            mesh = meshes[boxColor];
             if (event.which === 3) {
                 isLeftPointerDown = true;
                 return;
@@ -273,8 +266,8 @@ const VoxelBuilder = (props) => {
                     if (intersect.object !== plane && Number.isInteger(intersect.instanceId)) {
                         removed.push(intersect.instanceId);
                         matrix.setPosition(0, -100, 0);
-                        mesh.setMatrixAt(intersect.instanceId, matrix);
-                        mesh.instanceMatrix.needsUpdate = true;
+                        // mesh.setMatrixAt(intersect.instanceId, matrix);
+                        // mesh.instanceMatrix.needsUpdate = true;
 
                         cubes[intersect.instanceId] = null;
                     }
@@ -307,9 +300,9 @@ const VoxelBuilder = (props) => {
                         }
                         console.log(cubes);
                         mesh.setMatrixAt(id, matrix);
-                        mesh.setColorAt(id, new THREE.Color(boxColor).convertSRGBToLinear());
+                        // mesh.setColorAt(id, new THREE.Color(boxColor).convertSRGBToLinear());
                         mesh.instanceMatrix.needsUpdate = true;
-                        mesh.instanceColor.needsUpdate = true;
+                        // mesh.instanceColor.needsUpdate = true;
                     }
                 }
             }

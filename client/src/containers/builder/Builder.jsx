@@ -23,6 +23,7 @@ import StoneAgeImg from '../../assets/images/stoneage.png';
 import { NavLink } from 'react-router-dom';
 import { Container, Nav, Navbar, Button } from 'react-bootstrap';
 import WalletButton from '../../components/walletButton/WalletButton';
+import * as THREE from 'three';
 
 let cubes = [];
 
@@ -38,7 +39,7 @@ const exportCubes = (cubes) => {
 
 const Builder = () => {
     const dispatch = useDispatch();
-    let [boxColor, setBoxColor] = useState(colors[9]);
+    let [boxColor, setBoxColor] = useState(0);
     const ledgerState = useSelector(selectLedgerState);
     const [showChooseCube, setShowChooseCube] = useState(false);
     const walletConnected = useSelector(selectConnected);
@@ -47,7 +48,7 @@ const Builder = () => {
         function onDocumentKeyDown(event) {
             let num = parseInt(event.key);
             if (Number.isInteger(num) && num >= 0 && num <= 9) {
-                setBoxColor(colors[parseInt(event.key)]);
+                setBoxColor(parseInt(event.key));
             }
         }
         document.addEventListener('keydown', onDocumentKeyDown);
@@ -122,7 +123,7 @@ const Builder = () => {
                 </Container>
             </Navbar>
             <div style={{ height: '100vh' }}>
-                <Canvas gl={{ alpha: false }} sRGB camera={{ far: 10000 }}>
+                <Canvas camera={{ far: 10000 }}>
                     <VoxelBuilder boxColor={boxColor} cubes={cubes} />
                     <Ocean />
                 </Canvas>
