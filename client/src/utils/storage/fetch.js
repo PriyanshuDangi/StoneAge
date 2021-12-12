@@ -10,8 +10,8 @@ export const fetchCubesNFT = async () => {
                 cube_url: token.value.cube_url,
                 map_url: token.value.map_url,
                 on_sale: token.value.on_sale,
-                price: token.value.price,
-                token_id: token.value.token_id,
+                price: parseInt(token.value.price),
+                token_id: parseInt(token.value.token_id),
             };
         });
         console.log(tokens);

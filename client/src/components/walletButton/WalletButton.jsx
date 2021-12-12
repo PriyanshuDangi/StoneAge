@@ -15,7 +15,7 @@ const short = (pkh) => {
     if (pkh) return pkh.substring(0, 6) + '...' + pkh.substring(pkh.length - 4);
 };
 
-const WalletButton = () => {
+const WalletButton = (props) => {
     const dispatch = useDispatch();
     const walletConnected = useSelector(selectConnected);
     const pkh = useSelector(selectPKH);
@@ -30,10 +30,19 @@ const WalletButton = () => {
     };
 
     return (
-        <Button variant="outline-dark" onClick={clicked}>
-            <img src={tezosLogo} alt="tezos logo" style={{ width: '20px', height: '20px' }} />
-            {walletConnected && pkh ? short(pkh) : 'Connect Wallet'}
-        </Button>
+        <>
+            {props.dark ? (
+                <Button variant="outline-light" onClick={clicked}>
+                    <img src={tezosLogo} alt="tezos logo" style={{ width: '20px', height: '20px' }} />
+                    {walletConnected && pkh ? short(pkh) : 'Connect Wallet'}
+                </Button>
+            ) : (
+                <Button variant="outline-dark" onClick={clicked}>
+                    <img src={tezosLogo} alt="tezos logo" style={{ width: '20px', height: '20px' }} />
+                    {walletConnected && pkh ? short(pkh) : 'Connect Wallet'}
+                </Button>
+            )}
+        </>
     );
 };
 

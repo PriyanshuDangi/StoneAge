@@ -58,6 +58,27 @@ const updateCubeUrl = async (cubeId, url) => {
     await op.confirmation(1);
 };
 
+const buyToken = async (cubeId, price) => {
+    const registry = await getRegistry();
+    const op = await registry.methods.buy_token(cubeId).send({ amount: price, mutez: true });
+    await op.confirmation(1);
+    console.log('token bought ' + cubeId);
+};
+
+const listToken = async (cubeId, price) => {
+    const registry = await getRegistry();
+    const op = await registry.methods.list_token(price, cubeId).send();
+    await op.confirmation(1);
+    console.log('token listed ' + cubeId);
+};
+
+const delistToken = async (cubeId) => {
+    const registry = await getRegistry();
+    const op = await registry.methods.delist_token(cubeId).send();
+    await op.confirmation(1);
+    console.log('token delisted ' + cubeId);
+};
+
 export {
     wallet,
     Tezos,
@@ -68,4 +89,7 @@ export {
     getContract,
     getContractStorage,
     updateCubeUrl,
+    buyToken,
+    listToken,
+    delistToken,
 };
