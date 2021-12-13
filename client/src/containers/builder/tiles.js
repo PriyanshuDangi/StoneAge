@@ -9,6 +9,9 @@ import leavesImg from '../../assets/tiles/leaves.png';
 import stoneImg from '../../assets/tiles/stone.png';
 import stoneSandImg from '../../assets/tiles/stone_sand.png';
 import stoneDirtImg from '../../assets/tiles/stone_dirt.png';
+import brickGreyImg from '../../assets/tiles/brick_grey.png';
+import snowImg from '../../assets/tiles/snow.png';
+import sandImg from '../../assets/tiles/sand.png';
 
 const loader = new THREE.TextureLoader();
 
@@ -32,9 +35,10 @@ const leavesTransparentMaterial = loadMaterial(leavesTransparentImg, { transpare
 const leavesMaterial = loadMaterial(leavesImg);
 const stoneMaterial = loadMaterial(stoneImg);
 const stoneSandMaterial = loadMaterial(stoneSandImg);
+const sandMaterial = loadMaterial(sandImg);
 const stoneDirtMaterial = loadMaterial(stoneDirtImg);
-
-const tilesType = ['dirt-grass', 'dirt', 'trunk', 'tree-leaves', 'stone', 'stone-sand'];
+const brickGreyMaterial = loadMaterial(brickGreyImg);
+const snowMaterial = loadMaterial(snowImg);
 
 export const tiles = [
     {
@@ -77,8 +81,8 @@ export const tiles = [
         material: stoneMaterial,
     },
     {
-        type: 'stone-sand',
-        image: stoneSandImg,
+        type: 'stone-dirt',
+        image: stoneDirtImg,
         material: [
             stoneDirtMaterial,
             stoneDirtMaterial,
@@ -87,6 +91,28 @@ export const tiles = [
             stoneDirtMaterial,
             stoneDirtMaterial,
         ],
+    },
+    {
+        type: 'stone-sand',
+        image: stoneSandImg,
+        material: [
+            stoneSandMaterial,
+            stoneSandMaterial,
+            sandMaterial,
+            stoneMaterial,
+            stoneSandMaterial,
+            stoneSandMaterial,
+        ],
+    },
+    {
+        type: 'brick-grey',
+        image: brickGreyImg,
+        material: brickGreyMaterial,
+    },
+    {
+        type: 'snow',
+        image: snowImg,
+        material: snowMaterial,
     },
 ];
 

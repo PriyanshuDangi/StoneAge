@@ -7,14 +7,13 @@ import { boxSize, piece, height } from '../../config/world.js';
 import { checkCube } from '../../utils/builder/checkCube.js';
 import landImg from '../../assets/images/bedrock.png';
 import { colors } from './Color.js';
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import { tiles } from '../../containers/builder/tiles.js';
 import { meshes, object } from '../../containers/builder/mesh.js';
 
 const objects = [];
-let gridHelpers = [];
-let verticalPlanes = [];
-let boxColor = 0;
+let meshIndex = 0;
 
 const VoxelBuilder = (props) => {
     const { scene, camera, gl } = useThree();
@@ -22,90 +21,49 @@ const VoxelBuilder = (props) => {
     let { cubes } = props;
 
     useEffect(() => {
-        let gridHelper1 = new THREE.GridHelper(height * boxSize, height, 'grey', 'grey');
-        gridHelper1.position.set((boxSize * piece) / 4, (height * boxSize) / 2, (-boxSize * piece) / 2);
-        gridHelper1.rotation.x = Math.PI / 2;
+        // let color = new THREE.Color('skyblue').convertSRGBToLinear();
+        let color = new THREE.Color();
+        let visible = true;
+        let transparent = true;
+        let opacity = 0.4;
+        let wireframe = false;
+        let geometries = [];
 
-        let gridHelper2 = new THREE.GridHelper(height * boxSize, height, 'grey', 'grey');
-        gridHelper2.position.set(-(boxSize * piece) / 4, (height * boxSize) / 2, (-boxSize * piece) / 2);
-        gridHelper2.rotation.x = Math.PI / 2;
+        const gridHelper = new THREE.GridHelper(boxSize * piece, piece);
+        scene.add(gridHelper);
+        const geometry = new THREE.PlaneGeometry(boxSize * piece, boxSize * piece);
+        geometry.rotateX(-Math.PI / 2);
+        let plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ visible: false }));
+        scene.add(plane);
+        objects.push(plane);
 
-        let gridHelper3 = new THREE.GridHelper(height * boxSize, height, 'grey', 'grey');
-        gridHelper3.position.set(-(boxSize * piece) / 2, (height * boxSize) / 2, -(boxSize * piece) / 4);
-        gridHelper3.rotation.z = Math.PI / 2;
-
-        let gridHelper4 = new THREE.GridHelper(height * boxSize, height, 'grey', 'grey');
-        gridHelper4.position.set(-(boxSize * piece) / 2, (height * boxSize) / 2, (boxSize * piece) / 4);
-        gridHelper4.rotation.z = Math.PI / 2;
-
-        let gridHelper5 = new THREE.GridHelper(height * boxSize, height, 'grey', 'grey');
-        gridHelper5.position.set(-(boxSize * piece) / 4, (height * boxSize) / 2, (boxSize * piece) / 2);
-        gridHelper5.rotation.x = -Math.PI / 2;
-
-        let gridHelper6 = new THREE.GridHelper(height * boxSize, height, 'grey', 'grey');
-        gridHelper6.position.set((boxSize * piece) / 4, (height * boxSize) / 2, (boxSize * piece) / 2);
-        gridHelper6.rotation.x = -Math.PI / 2;
-
-        let gridHelper7 = new THREE.GridHelper(height * boxSize, height, 'grey', 'grey');
-        gridHelper7.position.set((boxSize * piece) / 2, (height * boxSize) / 2, (boxSize * piece) / 4);
-        gridHelper7.rotation.z = -Math.PI / 2;
-
-        let gridHelper8 = new THREE.GridHelper(height * boxSize, height, 'grey', 'grey');
-        gridHelper8.position.set((boxSize * piece) / 2, (height * boxSize) / 2, -(boxSize * piece) / 4);
-        gridHelper8.rotation.z = -Math.PI / 2;
-
-        scene.add(gridHelper1);
-        scene.add(gridHelper2);
-        scene.add(gridHelper3);
-        scene.add(gridHelper4);
-        scene.add(gridHelper5);
-        scene.add(gridHelper6);
-        scene.add(gridHelper7);
-        scene.add(gridHelper8);
-        gridHelpers.push(gridHelper1);
-        gridHelpers.push(gridHelper2);
-        gridHelpers.push(gridHelper3);
-        gridHelpers.push(gridHelper4);
-        gridHelpers.push(gridHelper5);
-        gridHelpers.push(gridHelper6);
-        gridHelpers.push(gridHelper7);
-        gridHelpers.push(gridHelper8);
-
-        const geometry1 = new THREE.PlaneGeometry(boxSize * piece, boxSize * height);
-
-        let visible = false;
-        let plane1 = new THREE.Mesh(geometry1, new THREE.MeshBasicMaterial({ visible: visible }));
-        plane1.position.set(0, (height * boxSize) / 2, (-boxSize * piece) / 2);
+        const geometry1 = new THREE.PlaneGeometry(boxSize * piece, boxSize * height, 10, 10);
+        geometry1.translate(0, (height * boxSize) / 2, (-boxSize * piece) / 2);
 
         const geometry2 = new THREE.PlaneGeometry(boxSize * piece, boxSize * height);
         geometry2.rotateY(Math.PI / 2);
-
-        let plane2 = new THREE.Mesh(geometry2, new THREE.MeshBasicMaterial({ visible: visible }));
-        plane2.position.set((-boxSize * piece) / 2, (height * boxSize) / 2, 0);
+        geometry2.translate((-boxSize * piece) / 2, (height * boxSize) / 2, 0);
 
         const geometry3 = new THREE.PlaneGeometry(boxSize * piece, boxSize * height);
         geometry3.rotateY(Math.PI);
-        let plane3 = new THREE.Mesh(geometry3, new THREE.MeshBasicMaterial({ visible: visible }));
-        plane3.position.set(0, (height * boxSize) / 2, (boxSize * piece) / 2);
+        geometry3.translate(0, (height * boxSize) / 2, (boxSize * piece) / 2);
 
         const geometry4 = new THREE.PlaneGeometry(boxSize * piece, boxSize * height);
         geometry4.rotateY(-Math.PI / 2);
-        let plane4 = new THREE.Mesh(geometry4, new THREE.MeshBasicMaterial({ visible: visible }));
-        plane4.position.set((boxSize * piece) / 2, (height * boxSize) / 2, 0);
-        // plane4.material.side = THREE.DoubleSide;
+        geometry4.translate((boxSize * piece) / 2, (height * boxSize) / 2, 0);
 
-        scene.add(plane1);
-        scene.add(plane2);
-        scene.add(plane3);
-        scene.add(plane4);
-        objects.push(plane1);
-        objects.push(plane2);
-        objects.push(plane3);
-        objects.push(plane4);
-        verticalPlanes.push(plane1);
-        verticalPlanes.push(plane2);
-        verticalPlanes.push(plane3);
-        verticalPlanes.push(plane4);
+        geometries.push(geometry1, geometry2, geometry3, geometry4);
+
+        const mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries, false);
+        const material = new THREE.MeshBasicMaterial({ color, visible, transparent, opacity, wireframe });
+        const mesh = new THREE.Mesh(mergedGeometry, material);
+        scene.add(mesh);
+
+        // const edges = new THREE.EdgesGeometry(mergedGeometry);
+        // const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xffffff }));
+        // scene.add(line);
+
+        objects.push(mesh);
     }, []);
 
     useEffect(() => {
@@ -113,13 +71,13 @@ const VoxelBuilder = (props) => {
         camera.lookAt(0, 0, 0);
         scene.fog = null;
 
-        scene.background = new THREE.Color();
+        scene.background = new THREE.Color('skyblue');
 
         // roll-over helpers
 
-        const rollOverGeo = new THREE.BoxGeometry(boxSize, boxSize, boxSize);
+        const rollOverGeo = new THREE.BoxGeometry(boxSize - 0.01, boxSize - 0.01, boxSize - 0.01);
         const rollOverMaterial = new THREE.MeshBasicMaterial({
-            color: new THREE.Color(boxColor),
+            color: new THREE.Color(0x000000),
             opacity: 0.5,
             transparent: true,
         });
@@ -129,19 +87,11 @@ const VoxelBuilder = (props) => {
 
         // grid
 
-        const gridHelper = new THREE.GridHelper(boxSize * piece, piece);
-        scene.add(gridHelper);
+        // const gridHelper = new THREE.GridHelper(boxSize * piece, piece);
+        // scene.add(gridHelper);
 
         let raycaster = new THREE.Raycaster();
         let pointer = new THREE.Vector2();
-
-        const geometry = new THREE.PlaneGeometry(boxSize * piece, boxSize * piece);
-        geometry.rotateX(-Math.PI / 2);
-
-        let plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ visible: false }));
-        scene.add(plane);
-
-        objects.push(plane);
 
         // lights
 
@@ -152,9 +102,11 @@ const VoxelBuilder = (props) => {
         directionalLight.position.set(1, 0.75, 0.5).normalize();
         scene.add(directionalLight);
 
-        document.addEventListener('pointermove', onPointerMove);
-        document.addEventListener('pointerdown', onPointerDown);
-        document.addEventListener('pointerup', onPointerUp);
+        let canvas = gl.domElement;
+
+        canvas.addEventListener('pointermove', onPointerMove);
+        canvas.addEventListener('pointerdown', onPointerDown);
+        canvas.addEventListener('pointerup', onPointerUp);
         document.addEventListener('keydown', onDocumentKeyDown);
         document.addEventListener('keyup', onDocumentKeyUp);
 
@@ -185,20 +137,16 @@ const VoxelBuilder = (props) => {
         }
 
         const matrix = new THREE.Matrix4();
-        let mesh = meshes[boxColor];
+        let mesh = meshes[meshIndex];
         scene.add(object);
         objects.push(object);
-        let removed = [];
+        let removed = tiles.map(() => []);
 
         function onPointerMove(event) {
-            if (isLeftPointerDown) {
-                updateGrids();
-                return;
-            }
             if (isRightPointerDown) {
                 onPointerDown(event);
             }
-            pointer.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
+            pointer.set((event.clientX / canvas.clientWidth) * 2 - 1, -(event.clientY / canvas.clientHeight) * 2 + 1);
             raycaster.setFromCamera(pointer, camera);
             const intersects = raycaster.intersectObjects(objects);
             if (intersects.length > 0) {
@@ -209,46 +157,13 @@ const VoxelBuilder = (props) => {
                     .floor()
                     .multiplyScalar(boxSize)
                     .addScalar(boxSize / 2);
-                rollOverMesh.material.color = new THREE.Color(boxColor).convertSRGBToLinear();
+                // rollOverMesh.material.color = new THREE.Color(meshIndex).convertSRGBToLinear();
             }
         }
 
-        const updateGrids = () => {
-            let angle = controls.getAzimuthalAngle();
-            scene.remove(gridHelpers[0]);
-            scene.remove(gridHelpers[1]);
-            scene.remove(gridHelpers[2]);
-            scene.remove(gridHelpers[3]);
-            scene.remove(gridHelpers[4]);
-            scene.remove(gridHelpers[5]);
-            scene.remove(gridHelpers[6]);
-            scene.remove(gridHelpers[7]);
-            if (angle >= -Math.PI / 8 && angle <= Math.PI / 2) {
-                scene.add(gridHelpers[0]);
-                scene.add(gridHelpers[1]);
-                scene.add(gridHelpers[2]);
-                scene.add(gridHelpers[3]);
-            } else if (angle >= Math.PI / 2 && angle <= Math.PI) {
-                scene.add(gridHelpers[2]);
-                scene.add(gridHelpers[3]);
-                scene.add(gridHelpers[4]);
-                scene.add(gridHelpers[5]);
-            } else if (angle >= -Math.PI && angle <= -Math.PI / 2) {
-                scene.add(gridHelpers[4]);
-                scene.add(gridHelpers[5]);
-                scene.add(gridHelpers[6]);
-                scene.add(gridHelpers[7]);
-            } else {
-                scene.add(gridHelpers[6]);
-                scene.add(gridHelpers[7]);
-                scene.add(gridHelpers[0]);
-                scene.add(gridHelpers[1]);
-            }
-        };
-        updateGrids();
         let p = 0;
         function onPointerDown(event) {
-            mesh = meshes[boxColor];
+            mesh = meshes[meshIndex];
             if (event.which === 3) {
                 isLeftPointerDown = true;
                 return;
@@ -256,20 +171,21 @@ const VoxelBuilder = (props) => {
             if (event.which === 1) {
                 isRightPointerDown = true;
             }
-            pointer.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
+            pointer.set((event.clientX / canvas.clientWidth) * 2 - 1, -(event.clientY / canvas.clientHeight) * 2 + 1);
             raycaster.setFromCamera(pointer, camera);
             const intersects = raycaster.intersectObjects(objects);
             if (intersects.length > 0) {
                 const intersect = intersects[0];
                 // delete cube
                 if (isAltDown) {
-                    if (intersect.object !== plane && Number.isInteger(intersect.instanceId)) {
-                        removed.push(intersect.instanceId);
+                    if (Number.isInteger(intersect.instanceId)) {
+                        console.log(intersect);
+                        let mesh = intersect.object;
+                        removed[mesh.name].push(intersect.instanceId);
                         matrix.setPosition(0, -100, 0);
-                        // mesh.setMatrixAt(intersect.instanceId, matrix);
-                        // mesh.instanceMatrix.needsUpdate = true;
-
-                        cubes[intersect.instanceId] = null;
+                        mesh.setMatrixAt(intersect.instanceId, matrix);
+                        mesh.instanceMatrix.needsUpdate = true;
+                        cubes[mesh.name][intersect.instanceId] = null;
                     }
                     // add cube
                 } else {
@@ -282,25 +198,24 @@ const VoxelBuilder = (props) => {
                         .addScalar(boxSize / 2);
                     matrix.setPosition(position.x, position.y, position.z);
                     if (checkCube(position.x, position.y, position.z)) {
-                        let id = p;
+                        let id = cubes[meshIndex].length;
                         let cube = {
                             position: {
                                 x: position.x,
                                 y: position.y,
                                 z: position.z,
                             },
-                            color: boxColor,
+                            type: tiles[meshIndex].type,
                         };
-                        if (removed.length > 0) {
-                            id = removed.pop();
-                            cubes[id] = cube;
+                        if (removed[meshIndex].length > 0) {
+                            id = removed[meshIndex].pop();
+                            cubes[meshIndex][id] = cube;
                         } else {
-                            cubes.push(cube);
+                            cubes[meshIndex].push(cube);
                             p++;
                         }
-                        console.log(cubes);
                         mesh.setMatrixAt(id, matrix);
-                        // mesh.setColorAt(id, new THREE.Color(boxColor).convertSRGBToLinear());
+                        // mesh.setColorAt(id, new THREE.Color(meshIndex).convertSRGBToLinear());
                         mesh.instanceMatrix.needsUpdate = true;
                         // mesh.instanceColor.needsUpdate = true;
                     }
@@ -335,18 +250,17 @@ const VoxelBuilder = (props) => {
         }
 
         return () => {
-            document.removeEventListener('pointermove', onPointerMove);
-            document.removeEventListener('pointerdown', onPointerDown);
-            document.removeEventListener('pointerup', onPointerUp);
+            canvas.removeEventListener('pointermove', onPointerMove);
+            canvas.removeEventListener('pointerdown', onPointerDown);
+            canvas.removeEventListener('pointerup', onPointerUp);
             document.removeEventListener('keydown', onDocumentKeyDown);
             document.removeEventListener('keyup', onDocumentKeyUp);
         };
     }, []);
 
-    // dirty hack not recommended
     useEffect(() => {
-        boxColor = props.boxColor;
-    }, [props.boxColor]);
+        meshIndex = props.meshIndex;
+    }, [props.meshIndex]);
 
     useFrame(() => {
         if (process.env.NODE_ENV === 'development') {

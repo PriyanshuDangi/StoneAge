@@ -8,10 +8,7 @@ import styleClasses from './styles.module.css';
 const Home = () => {
     return (
         <>
-            {/* <div className={styleClasses.walletButton}>
-                <WalletButton />
-            </div> */}
-            <NavBar />
+            <NavBar fixed="top" />
             <BirdCanvas />
         </>
     );

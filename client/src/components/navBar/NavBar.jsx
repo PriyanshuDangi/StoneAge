@@ -4,9 +4,9 @@ import StoneAgeImg from '../../assets/images/stoneage.png';
 import WalletButton from '../walletButton/WalletButton';
 import { NavLink } from 'react-router-dom';
 
-const NavBar = () => {
+const NavBar = (props) => {
     return (
-        <Navbar bg="dark" variant="dark" expand="sm" fixed="top">
+        <Navbar bg="dark" variant="dark" expand="sm" fixed={props.fixed}>
             <Container fluid>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <NavLink className="navbar-brand" to="/">
