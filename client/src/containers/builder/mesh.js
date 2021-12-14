@@ -11,3 +11,14 @@ export const meshes = tiles.map((tile, index) => {
     object.add(mesh);
     return mesh;
 });
+
+export const createMesh = (count) => {
+    const object = new THREE.Object3D();
+    const meshes = tiles.map((tile, index) => {
+        let mesh = new THREE.InstancedMesh(cubeGeometry, tile.material, count);
+        mesh.name = index;
+        object.add(mesh);
+        return mesh;
+    });
+    return {object, meshes};
+};

@@ -8,10 +8,14 @@ import landImg from '../../assets/images/bedrock.png';
 import { boxSize, height, piece } from '../../config/world';
 import { useThree } from '@react-three/fiber';
 import { tokenToCoordinates } from '../../utils/coordinate/coordinate';
+import { createMesh } from '../../containers/builder/mesh';
+import {tiles} from '../../containers/builder/tiles';
 
 let p = 0;
 let boxColor = colors;
 const tempObject = new THREE.Object3D();
+const { object, meshes } = createMesh(121 * 100);
+let cubesCount = tiles.map(() => 0);
 
 const Cubes = (props) => {
     const cubesData = props.cubesData;
@@ -33,12 +37,14 @@ const Cubes = (props) => {
 
         // const grid1 = new THREE.GridHelper(32*boxSize, 32);
         // scene.add(grid1);
+
+        console.log(object);
+        scene.add(object);
     }, []);
 
     useEffect(() => {
         const temp = new THREE.Object3D();
         const func = async () => {
-            console.log('func', cubesData);
             let cubeGeo = new THREE.BoxGeometry(boxSize, boxSize, boxSize);
             let cubeMaterial = new THREE.MeshLambertMaterial({
                 map: new THREE.TextureLoader().load(landImg),
@@ -58,21 +64,26 @@ const Cubes = (props) => {
                     const cubes = res.data.cubes;
                     if (cubes) {
                         for (let j = 0; j < cubes.length; j++) {
-                            const cube = cubes[j];
-                            const { position, color } = cube;
-                            matrix.setPosition(
-                                position.x + origin.x * piece * boxSize,
-                                position.y,
-                                position.z + origin.y * piece * boxSize,
-                            );
-                            mesh.setColorAt(p, new THREE.Color(color).convertSRGBToLinear());
-                            mesh.setMatrixAt(p++, matrix);
+                            for (let k = 0; k < cubes[j].length; k++) {
+                                const cube = cubes[j][k];
+                                const { position } = cube;
+                                if(position)
+                                matrix.setPosition(
+                                    position.x + origin.x * piece * boxSize,
+                                    position.y,
+                                    position.z + origin.y * piece * boxSize,
+                                );
+                                // mesh.setColorAt(p, new THREE.Color(color).convertSRGBToLinear());
+                                meshes[j].setMatrixAt(cubesCount[j]++, matrix);
+                            }
                         }
                     }
                 }
             }
-            mesh.instanceMatrix.needsUpdate = true;
-            mesh.instanceColor.needsUpdate = true;
+            meshes.forEach((mesh) => {
+                mesh.instanceMatrix.needsUpdate = true;
+            })
+            // mesh.instanceColor.needsUpdate = true;
         };
         if (cubesData && cubesData.length > 0) func();
     }, [cubesData]);
