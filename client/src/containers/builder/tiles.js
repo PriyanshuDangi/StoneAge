@@ -12,19 +12,23 @@ import stoneDirtImg from '../../assets/tiles/stone_dirt.png';
 import brickGreyImg from '../../assets/tiles/brick_grey.png';
 import snowImg from '../../assets/tiles/snow.png';
 import sandImg from '../../assets/tiles/sand.png';
+import { Color } from 'three';
 
 const loader = new THREE.TextureLoader();
 
 const loadMaterial = (img, props = { transparent: false }) => {
     const load = loader.load(img);
     load.encoding = THREE.sRGBEncoding;
-    load.magFilter = THREE.NearestFilter;
+    // load.magFilter = THREE.NearestFilter;
+    // load.minFilter = THREE.NearestFilter;
     const material = new THREE.MeshBasicMaterial({ map: load });
     if (props.transparent) {
         material.transparent = true;
     }
     return material;
 };
+
+const colorMaterial = new THREE.MeshBasicMaterial({ color: new Color(0xffffff) });
 
 const dirtGrassMaterial = loadMaterial(dirtGrassImg);
 const grassTopMaterial = loadMaterial(grassTopImg);
@@ -41,6 +45,11 @@ const brickGreyMaterial = loadMaterial(brickGreyImg);
 const snowMaterial = loadMaterial(snowImg);
 
 export const tiles = [
+    {
+        type: 'color',
+        input: 'color',
+        material: colorMaterial,
+    },
     {
         type: 'dirt-grass',
         material: [
@@ -72,8 +81,8 @@ export const tiles = [
     },
     {
         type: 'tree-leaves',
-        image: leavesImg,
-        material: leavesMaterial,
+        image: leavesTransparentImg,
+        material: leavesTransparentMaterial,
     },
     {
         type: 'stone',

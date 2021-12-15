@@ -24,10 +24,10 @@ const NavBar = (props) => {
                             Market
                         </NavLink>
                     </Nav>
+                    <div>
+                        <WalletButton dark />
+                    </div>
                 </Navbar.Collapse>
-                <div className="d-flex">
-                    <WalletButton dark />
-                </div>
             </Container>
         </Navbar>
     );

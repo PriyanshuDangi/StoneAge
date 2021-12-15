@@ -47,6 +47,7 @@ const Builder = () => {
     const ledgerState = useSelector(selectLedgerState);
     const [showChooseCube, setShowChooseCube] = useState(false);
     const walletConnected = useSelector(selectConnected);
+    let [inputCubeColor, setInputCubeColor] = useState('#000000');
 
     useEffect(() => {
         function onDocumentKeyDown(event) {
@@ -101,16 +102,37 @@ const Builder = () => {
                                         if (index == meshIndex) {
                                             classes.push(styleClasses.active);
                                         }
-                                        return (
-                                            <div
-                                                key={index}
-                                                className={classes.join(' ')}
-                                                onClickCapture={(event) => setIndex(event, index)}
-                                                title={tile.type}
-                                            >
-                                                <img src={tile.image} alt={tile.type} />
-                                            </div>
-                                        );
+                                        let component;
+                                        if (tile.type === 'color') {
+                                            component = (
+                                                <div
+                                                    key={index}
+                                                    className={classes.join(' ')}
+                                                    onClickCapture={(event) => setIndex(event, index)}
+                                                    title={tile.type}
+                                                >
+                                                    <input
+                                                        type="color"
+                                                        id="favcolor"
+                                                        name="favcolor"
+                                                        value={inputCubeColor}
+                                                        onChange={(e) => setInputCubeColor(e.target.value)}
+                                                    ></input>
+                                                </div>
+                                            );
+                                        } else {
+                                            component = (
+                                                <div
+                                                    key={index}
+                                                    className={classes.join(' ')}
+                                                    onClickCapture={(event) => setIndex(event, index)}
+                                                    title={tile.type}
+                                                >
+                                                    <img src={tile.image} alt={tile.type} />
+                                                </div>
+                                            );
+                                        }
+                                        return component;
                                     })}
                                 </div>
                             </Nav>
@@ -131,7 +153,7 @@ const Builder = () => {
                 </Navbar>
                 <div className={styleClasses.canvasContainer}>
                     <Canvas camera={{ far: 10000 }}>
-                        <VoxelBuilder meshIndex={meshIndex} cubes={cubes} />
+                        <VoxelBuilder meshIndex={meshIndex} cubes={cubes} cubeColor={inputCubeColor} />
                         <Ocean />
                     </Canvas>
                 </div>

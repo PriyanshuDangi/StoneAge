@@ -14,6 +14,7 @@ import { meshes, object } from '../../containers/builder/mesh.js';
 
 const objects = [];
 let meshIndex = 0;
+let cubeColor = '#000000';
 
 const VoxelBuilder = (props) => {
     const { scene, camera, gl } = useThree();
@@ -21,7 +22,6 @@ const VoxelBuilder = (props) => {
     let { cubes } = props;
 
     useEffect(() => {
-        // let color = new THREE.Color('skyblue').convertSRGBToLinear();
         let color = new THREE.Color();
         let visible = true;
         let transparent = true;
@@ -206,7 +206,11 @@ const VoxelBuilder = (props) => {
                                 z: position.z,
                             },
                             type: tiles[meshIndex].type,
+                            color: '#ffffff',
                         };
+                        if (tiles[meshIndex].type === 'color') {
+                            cube.color = cubeColor;
+                        }
                         if (removed[meshIndex].length > 0) {
                             id = removed[meshIndex].pop();
                             cubes[meshIndex][id] = cube;
@@ -215,9 +219,11 @@ const VoxelBuilder = (props) => {
                             p++;
                         }
                         mesh.setMatrixAt(id, matrix);
-                        // mesh.setColorAt(id, new THREE.Color(meshIndex).convertSRGBToLinear());
                         mesh.instanceMatrix.needsUpdate = true;
-                        // mesh.instanceColor.needsUpdate = true;
+                        if (tiles[meshIndex].type === 'color') {
+                            mesh.setColorAt(id, new THREE.Color(cubeColor).convertSRGBToLinear());
+                            mesh.instanceColor.needsUpdate = true;
+                        }
                     }
                 }
             }
@@ -260,7 +266,8 @@ const VoxelBuilder = (props) => {
 
     useEffect(() => {
         meshIndex = props.meshIndex;
-    }, [props.meshIndex]);
+        cubeColor = props.cubeColor;
+    }, [props.meshIndex, props.cubeColor]);
 
     useFrame(() => {
         if (process.env.NODE_ENV === 'development') {

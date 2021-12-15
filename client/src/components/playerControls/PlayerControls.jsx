@@ -22,7 +22,7 @@ const PlayerControls = () => {
         controls.minPolarAngle = 0;
         controls.maxPolarAngle = Math.PI / 2;
         controls.minDistance = 7;
-        controls.maxDistance = 300;
+        controls.maxDistance = 500;
         controls.enablePan = false;
         controls.mouseButtons.RIGHT = THREE.MOUSE.ROTATE;
         controls.update();

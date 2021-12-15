@@ -1,6 +1,6 @@
 :root {
     --logoHeight: 205px;
-    --logoWidth: 534px;
+    --logoWidth: min(534px, 90vw);
 }
 
 .logo {
@@ -11,10 +11,22 @@
 
 .title {
     font-size: 128px;
+    max-width: 90%;
+    text-align: center;
+    margin: auto;
+}
+
+.title img {
+    max-width: 100%;
+    margin: auto;
+    /* width: 100%; */
 }
 
 .links {
-    display: flex;
-    justify-content: space-evenly;
-    font-size: 24px;
+    /* display: flex;
+    justify-content: space-evenly; */
+    font-size: 1.5rem;
+    text-align: center;
+    font-family: 'MyFont';
+    color: red;
 }

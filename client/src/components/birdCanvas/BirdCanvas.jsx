@@ -454,7 +454,7 @@ const BirdCanvas = () => {
                     <img src={StoneAgeImg} alt="logo" />
                 </div>
                 <div className={styleClass.links}>
-                    <NavLink className="link-dark" to="/builder">
+                    {/* <NavLink className="link-dark" to="/builder">
                         Builder
                     </NavLink>
                     <NavLink className="link-dark" to="/world">
@@ -462,7 +462,9 @@ const BirdCanvas = () => {
                     </NavLink>
                     <NavLink className="link-dark" to="/marketplace">
                         MarketPlace
-                    </NavLink>
+                    </NavLink> */}
+                    <div>Decentralized Voxel World</div>
+                    <div>Powered by Tezos</div>
                 </div>
             </div>
         </div>

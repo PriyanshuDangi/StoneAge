@@ -20,5 +20,5 @@ export const createMesh = (count) => {
         object.add(mesh);
         return mesh;
     });
-    return {object, meshes};
+    return { object, meshes };
 };

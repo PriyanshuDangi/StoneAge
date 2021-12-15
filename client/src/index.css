@@ -9,3 +9,8 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+@font-face {
+    font-family: 'MyFont';
+    src: local('MyFont'), url(./assets/fonts/Blocks.ttf) format('truetype');
+}
