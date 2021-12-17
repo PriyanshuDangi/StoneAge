@@ -10,12 +10,15 @@ import { useThree } from '@react-three/fiber';
 import { tokenToCoordinates } from '../../utils/coordinate/coordinate';
 import { createMesh } from '../../containers/builder/mesh';
 import { tiles } from '../../containers/builder/tiles';
+// import Stats from 'three/examples/jsm/libs/stats.module.js';
+// import { useFrame } from 'react-three-fiber';
 
 let p = 0;
 let boxColor = colors;
 const tempObject = new THREE.Object3D();
 const { object, meshes } = createMesh(121 * 100);
 let cubesCount = tiles.map(() => 0);
+// const stats = new Stats();
 
 const Cubes = (props) => {
     const cubesData = props.cubesData;
@@ -23,8 +26,8 @@ const Cubes = (props) => {
     const { scene, camera } = useThree();
 
     useEffect(() => {
-        camera.position.set(0, 200, 200);
-        camera.lookAt(0, 0, 0);
+        // document.body.appendChild(stats.dom);
+
         const ambientLight = new THREE.AmbientLight(0x606060);
         scene.add(ambientLight);
 
@@ -35,7 +38,7 @@ const Cubes = (props) => {
         const number = 11;
         const grid = new THREE.GridHelper(piece * boxSize * number, number);
         // grid.position.set((-piece * boxSize) / 2, 0, (-piece * boxSize) / 2);
-        scene.add(grid);
+        // scene.add(grid);
 
         // const grid1 = new THREE.GridHelper(32*boxSize, 32);
         // scene.add(grid1);
@@ -92,6 +95,10 @@ const Cubes = (props) => {
         };
         if (cubesData && cubesData.length > 0) func();
     }, [cubesData]);
+
+    // useFrame(() => {
+    //     stats.update();
+    // });
 
     return null;
 };
