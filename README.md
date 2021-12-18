@@ -37,9 +37,7 @@ The world provides many controls
 -   [_Fly_](https://stoneage.vercel.app/world?controls=fly)  
      Be the Harry Potter of the world and fly using the FlyControls. You just need to give it direction using the pointer and use the left click for forward and left click for moving backward. And use shift to increase the speed.
 
-     <figure class="video_container">
-          <iframe src="https://drive.google.com/file/d/1OUBy5BvWkxmVAOggnLJhBPNZ_YNZ6kY5/preview" frameborder="0" allowfullscreen="true"> </iframe>
-     </figure>
+    https://user-images.githubusercontent.com/51911161/146641635-510a6caa-5bdc-402e-a764-a1f1bba982cf.mp4
 
 ### [MarketPlace](https://stoneage.vercel.app/marketplace)
 
