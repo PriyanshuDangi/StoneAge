@@ -8,6 +8,7 @@ import Home from './containers/home/Home';
 import MarketPlace from './containers/marketplace/MarketPlace';
 import World from './containers/world/World';
 import Builder from './containers/builder/Builder';
+import Mint from "./containers/mint/Mint";
 import { useDispatch } from 'react-redux';
 import { getActiveAccount } from './utils/wallet/wallet';
 import { removePKH, setPKH } from './store/reducers/walletSlice';
@@ -41,6 +42,7 @@ function App() {
                 <Route exact element={<World />} path={'/world'} />
                 <Route exact element={<Builder />} path={'/builder'} />
                 <Route exact element={<MarketPlace />} path={'/marketplace'} />
+                <Route exact element={<Mint />} path={'/mint'} />
                 <Route exact element={<Home />} path={'/'} />
             </Routes>
         </Router>

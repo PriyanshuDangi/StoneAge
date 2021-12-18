@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Canvas } from 'react-three-fiber';
 import Cubes from '../../components/Cubes/Cubes';
@@ -19,11 +19,22 @@ const useQuery = () => {
 const World = () => {
     const cubesData = useSelector(selectCubesNFT);
     let query = useQuery();
+    const [controlsType, setControls] = useState('orbit');
+
+    useEffect(() => {
+        if (query.get('controls') == 'move') {
+            setControls('move');
+        } else if (query.get('controls') == 'fly') {
+            setControls('fly');
+        } else {
+            setControls('orbit');
+        }
+    }, [query]);
 
     let controls = <WorldOrbitControls />;
-    if (query.get('controls') === 'move') {
+    if (controlsType === 'move') {
         controls = <WordlMoveControls />;
-    } else if (query.get('controls') === 'fly') {
+    } else if (controlsType === 'fly') {
         controls = <WorldFlyControls />;
     }
 

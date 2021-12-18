@@ -18,7 +18,7 @@ let cubeColor = '#000000';
 
 const VoxelBuilder = (props) => {
     const { scene, camera, gl } = useThree();
-    let [stats] = useState(new Stats());
+    // let [stats] = useState(new Stats());
     let { cubes } = props;
 
     useEffect(() => {
@@ -133,7 +133,7 @@ const VoxelBuilder = (props) => {
         scene.add(axesHelper);
 
         if (process.env.NODE_ENV === 'development') {
-            document.body.appendChild(stats.dom);
+            // document.body.appendChild(stats.dom);
         }
 
         const matrix = new THREE.Matrix4();
@@ -271,7 +271,7 @@ const VoxelBuilder = (props) => {
 
     useFrame(() => {
         if (process.env.NODE_ENV === 'development') {
-            stats.update();
+            // stats.update();
         }
     });
 

@@ -80,7 +80,7 @@ const Cubes = (props) => {
                                     );
                                 meshes[j].setMatrixAt(cubesCount[j], matrix);
                                 if (tiles[j].type === 'color' && color) {
-                                    mesh[j].setColorAt(cubesCount[j], new THREE.Color(color).convertSRGBToLinear());
+                                    meshes[j].setColorAt(cubesCount[j], new THREE.Color(color).convertSRGBToLinear());
                                 }
                                 cubesCount[j]++;
                             }
@@ -91,7 +91,7 @@ const Cubes = (props) => {
             meshes.forEach((mesh) => {
                 mesh.instanceMatrix.needsUpdate = true;
             });
-            // mesh.instanceColor.needsUpdate = true;
+            meshes[0].instanceColor.needsUpdate = true;
         };
         if (cubesData && cubesData.length > 0) func();
     }, [cubesData]);

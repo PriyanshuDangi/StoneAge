@@ -1,4 +1,4 @@
-import { TezosToolkit } from '@taquito/taquito';
+import { TezosToolkit, MichelsonMap } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import * as config from '../../config/wallet';
 
@@ -52,6 +52,13 @@ const getContractStorage = async () => {
     return storage;
 };
 
+const mintToken = async () => {
+    const registry = await getRegistry(config.NFT_REGISTRY_ADDRESS);
+    const newEmptyMapWithoutArg = new MichelsonMap();
+    const op = await registry.methods.mint(newEmptyMapWithoutArg).send();
+    await op.confirmation(1);
+}
+
 const updateCubeUrl = async (cubeId, url) => {
     const registry = await getRegistry();
     const op = await registry.methods.update_cube(url, cubeId).send();
@@ -88,6 +95,7 @@ export {
     getActiveAccount,
     getContract,
     getContractStorage,
+    mintToken,
     updateCubeUrl,
     buyToken,
     listToken,

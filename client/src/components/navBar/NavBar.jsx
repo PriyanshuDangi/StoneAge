@@ -23,6 +23,9 @@ const NavBar = (props) => {
                         <NavLink className="nav-link" to="/marketplace">
                             Market
                         </NavLink>
+                        <NavLink className="nav-link" to="/mint">
+                            Mint
+                        </NavLink>
                     </Nav>
                     <div>
                         <WalletButton dark />
