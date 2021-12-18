@@ -2,7 +2,17 @@
 
 <img src="./images/stoneage.png" >
 
-Voxel World created, shared and owned by its users which resembles the StoneAge time. World is divided into 11 continents and each continent is further divided into 11x11 CubeLand. Each CubeLand has 64x64x32 units in size.
+[stoneage.vercel.app](http://stoneage.vercel.app/)
+
+## What is StoneAge
+
+StoneAge: A decentralized world shared, created and owned by its users. It is named so, as only cubes can be used to build the world. So this is the metaverse's stone age, which will keep evolving with time and advancements.
+
+StoneAge world is divided into 11 continents, and each continent is further divided into 121 land pieces. Each land piece will be an NFT. And the owner of the land can build over it using the different colours and tiles of cube available.
+
+$CUBE is the world currency token. And each land will be passively generating 1$CUBE token each day, which can be transferred, bought, sold or used to increase the land value as discussed below.
+
+Currently, there are ten different cube types available for each land. And the owner is provided with 100 cubes of each type initially with the land. If the owner wishes to increase the number of cubes, they can burn 1 $CUBE token to add one cube piece to its land. The more the available cube, the more valuable the land is.
 
 ## Preview
 
@@ -43,6 +53,26 @@ The world provides many controls
 
 Buy and sell cubeland for XTZ using the marketplace. The user can also view all the cubelands owned by them in the marketplace "My Cubes" section.
 
+<img src="./images/market.png" >
+
 ### [Mint](https://stoneage.vercel.app/mint)
 
 Here you can mint the cubeland.
+
+<img src="./images/mint.png" >
+
+
+## Contracts 
+
+- Cube Nft Registry: [KT1K3wSAb6M1BjgfX9Ze9w5fzSRNo1UXVbw4](https://better-call.dev/hangzhou2net/KT1K3wSAb6M1BjgfX9Ze9w5fzSRNo1UXVbw4/operations)
+- $Cube Collector: In Progress
+- $CUBE Token: FA2 fungible single asset token, completed but not deployed as $CUBE collector is needed. 
+## To Be Done
+
+for the first version to complete
+- [ ] Completing the $CUBE collector token. 
+- [ ] Deciding the tokenomics of $CUBE. 
+- [ ] Continent Atlas
+ 
+ features planned 
+ - [ ] NFTs Gallery over land

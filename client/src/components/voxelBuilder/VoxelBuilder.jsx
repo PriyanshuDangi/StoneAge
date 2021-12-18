@@ -215,6 +215,10 @@ const VoxelBuilder = (props) => {
                             id = removed[meshIndex].pop();
                             cubes[meshIndex][id] = cube;
                         } else {
+                            console.log(id);
+                            if (id >= 100) {
+                                return;
+                            }
                             cubes[meshIndex].push(cube);
                             p++;
                         }

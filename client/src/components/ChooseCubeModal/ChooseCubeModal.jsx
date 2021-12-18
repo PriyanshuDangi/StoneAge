@@ -43,14 +43,22 @@ const ChooseCubeModal = (props) => {
     }, [props.show, ledgerState, pkh]);
 
     const handleClose = () => {
+        setLoading(false);
         props.set(false);
     };
 
     const publish = async (id) => {
-        setLoading(true);
-        setSelectedCube(id);
-        await props.publishCube(id);
-        setLoading(false);
+        try {
+            setLoading(true);
+            setMessage('');
+            setSelectedCube(id);
+            await props.publishCube(id);
+            setLoading(false);
+        } catch (err) {
+            setLoading(false);
+            console.log(err);
+            setMessage('Unable to publish cube');
+        }
     };
 
     return (
