@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FirstPersonControls } from '@react-three/drei';
 import { useThree } from 'react-three-fiber';
-import * as THREE from "three";
+import * as THREE from 'three';
 
 let movementSpeed = 16;
 let shiftMovementSpeed = 120;

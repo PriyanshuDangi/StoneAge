@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button, NavDropdown } from 'react-bootstrap';
 import StoneAgeImg from '../../assets/images/stoneage.png';
 import WalletButton from '../walletButton/WalletButton';
 import { NavLink } from 'react-router-dom';
@@ -14,9 +14,18 @@ const NavBar = (props) => {
                 </NavLink>
                 <Navbar.Collapse id="navbarScroll">
                     <Nav className="me-auto">
-                        <NavLink className="nav-link" to="/world">
-                            World
-                        </NavLink>
+                        <NavDropdown title="World" id="navbarScrollingDropdown" menuVariant="dark">
+                            <NavLink className="dropdown-item" to="/world?controls=orbit">
+                                Orbit
+                            </NavLink>
+                            {/* <NavDropdown.Divider /> */}
+                            <NavLink className="dropdown-item" to="/world?controls=move">
+                                Move
+                            </NavLink>
+                            <NavLink className="dropdown-item" to="/world?controls=fly">
+                                Fly
+                            </NavLink>
+                        </NavDropdown>
                         <NavLink className="nav-link" to="/builder">
                             Builder
                         </NavLink>

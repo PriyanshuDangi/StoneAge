@@ -20,7 +20,7 @@ const Ocean = () => {
             waterColor: 0x001e0f,
             distortionScale: 3.7,
             fog: scene.fog !== undefined,
-            side: THREE.DoubleSide
+            side: THREE.DoubleSide,
         }),
     );
 

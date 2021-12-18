@@ -8,7 +8,7 @@ import Home from './containers/home/Home';
 import MarketPlace from './containers/marketplace/MarketPlace';
 import World from './containers/world/World';
 import Builder from './containers/builder/Builder';
-import Mint from "./containers/mint/Mint";
+import Mint from './containers/mint/Mint';
 import { useDispatch } from 'react-redux';
 import { getActiveAccount } from './utils/wallet/wallet';
 import { removePKH, setPKH } from './store/reducers/walletSlice';

@@ -5,7 +5,7 @@ import { boxSize, piece } from '../../config/world';
 import dirtImg from '../../assets/tiles/dirt.png';
 import snowImg from '../../assets/tiles/snow.png';
 import sandImg from '../../assets/tiles/sand.png';
-import stoneSilverImg from "../../assets/tiles/stone_silver.png";
+import stoneSilverImg from '../../assets/tiles/stone_silver.png';
 
 const Ground = (props) => {
     const { length, breadth } = props;
@@ -30,7 +30,7 @@ const Ground = (props) => {
         texture.anisotropy = 16;
         texture.encoding = THREE.sRGBEncoding;
         // texture.repeat.set(length*piece, length*piece);
-        const material = new THREE.MeshPhongMaterial({ map: texture, shininess: 2, color: "#666" });
+        const material = new THREE.MeshPhongMaterial({ map: texture, shininess: 2, color: '#666' });
 
         // let materials = [dirtMaterial, dirtMaterial, dirtMaterial, dirtMaterial, material, material];
         const mesh = new THREE.Mesh(geometry, material);

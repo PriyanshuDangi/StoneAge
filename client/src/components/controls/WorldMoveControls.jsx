@@ -86,9 +86,17 @@ const WorldMoveControls = () => {
         camera.position.set(0, 10, 0);
         // camera.lookAt(0, 0, 0);
 
-        document.addEventListener('click', () => {
+        const lockControls = () => {
             controls.current.lock();
-        });
+        };
+
+        let canvas = gl.domElement;
+
+        canvas.addEventListener('click', lockControls);
+
+        return () => {
+            canvas.removeEventListener('click', lockControls);
+        };
     }, []);
 
     useFrame(() => {

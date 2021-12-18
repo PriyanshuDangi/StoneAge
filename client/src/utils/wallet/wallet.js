@@ -57,7 +57,7 @@ const mintToken = async () => {
     const newEmptyMapWithoutArg = new MichelsonMap();
     const op = await registry.methods.mint(newEmptyMapWithoutArg).send();
     await op.confirmation(1);
-}
+};
 
 const updateCubeUrl = async (cubeId, url) => {
     const registry = await getRegistry();
