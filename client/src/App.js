@@ -36,6 +36,13 @@ function App() {
         func();
     }, []);
 
+    return (<Router>
+        <Routes>
+            <Route element={<Home />} path={'*'} />
+        </Routes>
+    </Router>
+    )
+
     return (
         <Router>
             <Routes>

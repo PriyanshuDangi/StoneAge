@@ -1,0 +1,17 @@
+.socialContainer {
+    position: absolute;
+    display: flex;
+    right: 15px;
+    bottom: 20px;
+}
+
+.socialContainer > div {
+    margin: auto 5px;
+}
+
+.socialContainer img {
+    background-color: white;
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+}
