@@ -1,0 +1,38 @@
+.body > div {
+    display: flex;
+    flex-flow: row;
+    text-align: center;
+    line-height: 30px;
+}
+
+.body .col {
+    flex-flow: column;
+}
+
+.body .left {
+    width: 50%;
+}
+
+.body .right {
+    width: 50%;
+}
+
+.body .bold {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.body .center {
+    flex-grow: 1;
+}
+
+.body .divider {
+    border-top: 1px dotted #1c1b1b;
+    margin: 10px auto;
+    width: 80%;
+}
+
+.body img {
+    height: 200%;
+    width: 200%;
+}

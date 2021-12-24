@@ -25,6 +25,10 @@ import { Container, Nav, Navbar, Button } from 'react-bootstrap';
 import WalletButton from '../../components/walletButton/WalletButton';
 import * as THREE from 'three';
 import { tiles } from './tiles';
+import InfoButton from '../../components/infoButton/InfoButton';
+import InstructModal from '../../components/instructModal/InstructModal';
+
+// import { Perf } from 'r3f-perf';
 
 let cubes = tiles.map(() => []);
 
@@ -48,6 +52,7 @@ const Builder = () => {
     const [showChooseCube, setShowChooseCube] = useState(false);
     const walletConnected = useSelector(selectConnected);
     let [inputCubeColor, setInputCubeColor] = useState('#000000');
+    const [showInfo, setShowInfo] = useState(true);
 
     useEffect(() => {
         function onDocumentKeyDown(event) {
@@ -82,6 +87,11 @@ const Builder = () => {
         const allCubes = exportCubes(cubes);
         const url = await uploadCube(allCubes, cubeId);
         await updateCubeUrl(cubeId, url);
+    };
+
+    const infoClicked = (event) => {
+        event.stopPropagation();
+        setShowInfo(true);
     };
 
     return (
@@ -153,17 +163,15 @@ const Builder = () => {
                 </Navbar>
                 <div className={styleClasses.canvasContainer}>
                     <Canvas camera={{ far: 10000 }}>
+                        {/* <Perf /> */}
                         <VoxelBuilder meshIndex={meshIndex} cubes={cubes} cubeColor={inputCubeColor} />
                         <Ocean />
                     </Canvas>
                 </div>
             </div>
 
-            <div className={styleClasses.info}>
-                <IconButton aria-label="info" size="large" color="secondary">
-                    <InfoRoundedIcon fontSize="inherit" />
-                </IconButton>
-            </div>
+            <InstructModal show={showInfo} set={setShowInfo} type="builder" />
+            <InfoButton clicked={infoClicked} />
         </div>
     );
 };

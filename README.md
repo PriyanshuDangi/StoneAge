@@ -12,7 +12,7 @@ StoneAge world is divided into 11 continents, and each continent is further divi
 
 $CUBE is the world currency token. And each land will be passively generating 1$CUBE token each day, which can be transferred, bought, sold or used to increase the land value as discussed below.
 
-Currently, there are ten different cube types available for each land. And the owner is provided with 100 cubes of each type initially with the land. If the owner wishes to increase the number of cubes, they can burn 1 $CUBE token to add one cube piece to its land. The more the available cube, the more valuable the land is.
+Currently, there are ten different cube types available for each land. And the owner is provided with 100 cubes of each type initially with the land. If the owner wishes to increase the number of cubes, they can burn 1 $CUBE token to add one cube piece to its land. The more the number of cubes attatched to land, the more valuable the land is.
 
 ## Preview
 

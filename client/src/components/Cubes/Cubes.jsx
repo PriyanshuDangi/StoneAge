@@ -16,7 +16,7 @@ import { tiles } from '../../containers/builder/tiles';
 let p = 0;
 let boxColor = colors;
 const tempObject = new THREE.Object3D();
-const { object, meshes } = createMesh(121 * 100);
+const { object, meshes } = createMesh(121 * 100 * 5);
 let cubesCount = tiles.map(() => 0);
 // const stats = new Stats();
 
@@ -50,25 +50,17 @@ const Cubes = (props) => {
     useEffect(() => {
         const temp = new THREE.Object3D();
         const func = async () => {
-            let cubeGeo = new THREE.BoxGeometry(boxSize, boxSize, boxSize);
-            let cubeMaterial = new THREE.MeshLambertMaterial({
-                map: new THREE.TextureLoader().load(landImg),
-                color: new THREE.Color(boxColor),
-            });
-            const mesh = new THREE.InstancedMesh(cubeGeo, cubeMaterial, 6 * height * piece * piece);
             const matrix = new THREE.Matrix4();
-            scene.add(mesh);
             for (let i = 0; i < cubesData.length; i++) {
                 let { cube_url, token_id } = cubesData[i];
                 let origin = tokenToCoordinates(parseInt(token_id));
 
-                console.log(origin);
                 if (cube_url) {
                     let res = await axios.get('https://gateway.pinata.cloud/ipfs/' + cube_url.slice(7));
-                    console.log(res.data);
                     const cubes = res.data.cubes;
                     if (cubes) {
                         for (let j = 0; j < cubes.length; j++) {
+                            cubes[j] = cubes[j].slice(0, 100); // to render only 100 cubes
                             for (let k = 0; k < cubes[j].length; k++) {
                                 const cube = cubes[j][k];
                                 const { position, color } = cube;

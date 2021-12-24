@@ -1,0 +1,15 @@
+.info {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    cursor: pointer;
+}
+
+.info span {
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    background-color: white;
+    padding: 0 8px;
+    border-radius: 50%;
+}
