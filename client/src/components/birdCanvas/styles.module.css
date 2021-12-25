@@ -7,6 +7,7 @@
     position: absolute;
     top: calc(50% - (var(--logoHeight) / 2));
     left: calc(50% - (var(--logoWidth) / 2));
+    /* background-color: rgba(0, 0, 0, 0.2); */
 }
 
 .title {
@@ -28,5 +29,6 @@
     font-size: 1.5rem;
     text-align: center;
     font-family: 'MyFont';
-    color: red;
+    /* color: red; */
+    /* background-color: rgba(0, 0, 0, 0.2); */
 }

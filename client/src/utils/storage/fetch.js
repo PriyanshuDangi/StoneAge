@@ -3,7 +3,7 @@ import { fetchBigMap } from './tzkt';
 
 export const fetchCubesNFT = async () => {
     try {
-        console.log('Fetching cubes NFT');
+        // console.log('Fetching cubes NFT');
         const response = await fetchBigMap(config.NFT_REGISTRY_ADDRESS, 'token_metadata');
         const tokens = response.data.map((token) => {
             return {
@@ -14,7 +14,7 @@ export const fetchCubesNFT = async () => {
                 token_id: parseInt(token.value.token_id),
             };
         });
-        console.log(tokens);
+        // console.log(tokens);
         return tokens;
     } catch (err) {
         console.log(err);

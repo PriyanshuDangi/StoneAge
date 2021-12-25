@@ -8,11 +8,11 @@ import styleClasses from './styles.module.css';
 
 const Home = () => {
     return (
-        <>
+        <div className={styleClasses.homeContainer}>
             {/* <NavBar fixed="top" /> */}
             <SocialButtons />
             <BirdCanvas />
-        </>
+        </div>
     );
 };
 

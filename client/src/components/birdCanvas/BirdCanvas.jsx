@@ -169,6 +169,8 @@ const BirdCanvas = () => {
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
             container.appendChild(renderer.domElement);
+            renderer.domElement.style.filter = 'brightness(0.8)';
+
 
             controls = new OrbitControls(camera, renderer.domElement);
             controls.enablePan = false;
@@ -463,8 +465,10 @@ const BirdCanvas = () => {
                     <NavLink className="link-dark" to="/marketplace">
                         MarketPlace
                     </NavLink> */}
-                    <div>Decentralized Voxel World</div>
-                    <div>Powered by Tezos</div>
+                    <div>First open and decentralised </div>
+                    <div>Metaverse on Tezos</div>
+                    {/* <div>Decentralized Voxel World</div>
+                    <div>Powered by Tezos</div> */}
                 </div>
             </div>
         </div>
