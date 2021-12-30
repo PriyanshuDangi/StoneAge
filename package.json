@@ -1,7 +1,7 @@
 {
   "name": "stoneage",
   "version": "1.0.0",
-  "description": "<img src=\"./images/stoneage.png\" >",
+  "description": "A decentralized world shared, created and owned by its users.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\"",
