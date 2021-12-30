@@ -31,9 +31,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "prettier": "prettier --list-different '**/*.{js,jsx,md,ts,tsx,css}'",
-    "prettier-fix": "prettier --write '**/*.{js,jsx,md,ts,tsx,css}'"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,8 +47,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "prettier": "^2.5.0"
   }
 }

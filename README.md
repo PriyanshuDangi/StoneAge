@@ -61,18 +61,20 @@ Here you can mint the cubeland.
 
 <img src="./images/mint.png" >
 
+## Contracts
 
-## Contracts 
+-   Cube Nft Registry: [KT1K3wSAb6M1BjgfX9Ze9w5fzSRNo1UXVbw4](https://better-call.dev/hangzhou2net/KT1K3wSAb6M1BjgfX9Ze9w5fzSRNo1UXVbw4/operations)
+-   $Cube Collector: In Progress
+-   $CUBE Token: FA2 fungible single asset token, completed but not deployed as $CUBE collector is needed.
 
-- Cube Nft Registry: [KT1K3wSAb6M1BjgfX9Ze9w5fzSRNo1UXVbw4](https://better-call.dev/hangzhou2net/KT1K3wSAb6M1BjgfX9Ze9w5fzSRNo1UXVbw4/operations)
-- $Cube Collector: In Progress
-- $CUBE Token: FA2 fungible single asset token, completed but not deployed as $CUBE collector is needed. 
 ## To Be Done
 
 for the first version to complete
-- [ ] Completing the $CUBE collector token. 
-- [ ] Deciding the tokenomics of $CUBE. 
-- [ ] Continent Atlas
- 
- features planned 
- - [ ] NFTs Gallery over land
+
+-   [ ] Completing the $CUBE collector token.
+-   [ ] Deciding the tokenomics of $CUBE.
+-   [ ] Continent Atlas
+
+features planned
+
+-   [ ] NFTs Gallery over land

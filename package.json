@@ -1,11 +1,46 @@
 {
   "name": "stoneage",
   "version": "1.0.0",
-  "description": "",
+  "description": "<img src=\"./images/stoneage.png\" >",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\"",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "prettier": "prettier --list-different '**/*.{js,jsx,md,ts,tsx,css}'",
+    "prettier-fix": "prettier --write '**/*.{js,jsx,md,ts,tsx,css}'",
+    "prepare": "husky install"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PriyanshuDangi/StoneAge.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/PriyanshuDangi/StoneAge/issues"
+  },
+  "homepage": "https://github.com/PriyanshuDangi/StoneAge#readme",
+  "dependencies": {
+    "@pinata/sdk": "^1.1.23",
+    "axios": "^0.24.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "husky": "^7.0.0",
+    "lint-staged": "^12.1.4",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,md,css}": "prettier --write"
+  }
 }
